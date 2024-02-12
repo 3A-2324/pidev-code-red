@@ -1,0 +1,31 @@
+{% extends 'templates_back/base.html.twig'%}
+<!DOCTYPE html>
+
+{% block title %}Suivi Activite{% endblock %}
+
+{% block body %}
+    <h1>SuiviActivité</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ suivi_activit_.id }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ suivi_activit_.date ? suivi_activit_.date|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Rep</th>
+                <td>{{ suivi_activit_.rep }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_suivi_activit__index') }}">back to list</a>
+
+    <a href="{{ path('app_suivi_activit__edit', {'id': suivi_activit_.id}) }}">edit</a>
+
+    {{ include('suivi_activité/_delete_form.html.twig') }}
+{% endblock %}
