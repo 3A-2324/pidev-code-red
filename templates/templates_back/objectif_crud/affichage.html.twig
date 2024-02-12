@@ -1,0 +1,105 @@
+{% extends 'templates_back/base.html.twig' %}
+
+
+
+{% block body %}
+
+
+<style>
+table {
+  width: 20%;
+  border-collapse: collapse;
+  margin-top: 111px;
+   margin-left: 300px;
+
+  
+  
+  border: 20px solid #ddd;
+}
+
+table, th, td {
+  border: 1px solid #ddd;
+  
+}
+
+th, td {
+  padding: 30px;
+  text-align: left;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+caption {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+img {
+  max-width: 100px;
+  max-height: 100px;
+}
+
+button {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+button.delete {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+button.delete:hover {
+  background-color: #d32f2f;
+}
+
+button.edit {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+}
+
+button.edit:hover {
+  background-color: #1976D2;
+}
+
+</style>
+</head>
+<body>
+<table>
+  <caption>Les Auteurs </caption>
+  <tr>
+     <th>id</th>
+    <th>sexe</th>
+    <th>age</th>
+    <th>height</th>
+    <th>weight</th>
+    <th>activity_level</th>
+    <th>choix</th>
+    <th>calorie</th>
+  </tr>
+  {% for a in list %}
+  <tr>
+     <td>{{ a.id }}</td>
+    <td>{{ a.sexe }}</td>
+    <td>{{ a.age }}</td>
+    <td>{{ a.height }}</td>
+    <td>{{ a.weight }}</td>
+    <td>{{ a.activityLevel }}</td>
+    <td>{{ a.choix }}</td>
+    <td>{{ a.calorie }}</td>
+    
+
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}
