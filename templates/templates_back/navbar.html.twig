@@ -133,9 +133,16 @@
         <div class="quixnav">
             <div class="quixnav-scroll">
                 <ul class="metismenu" id="menu">
-                    
-                  
-                    
+                <!--**********************************    
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                                class="icon icon-single-04"></i><span class="nav-text">gestion de lapplication</span></a>
+                        <ul aria-expanded="false">
+                            <li><a href="./index1.html">dashboard-1</a></li>
+                            <li><a href="./index2.html">dashboard-2</a></li>
+                           
+                        </ul>
+                    </li>
+                 ***********************************-->   
 
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                         class="icon icon-plug"></i><span class="nav-text">gestion de l'utilisateur</span></a>
@@ -149,7 +156,7 @@
                         <ul aria-expanded="false">
                             <li><a href="./maissa1.html">activites</a></li>
                           
-                            <li><a href={{path('app_suivi_activit__index')}}>historique_activites</a></li>
+                            <li><a href="./maissa2.html">historique_activites</a></li>
                         </ul>
                     </li>
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
@@ -166,16 +173,16 @@
                         <ul aria-expanded="false">
                             <li><a href={{path('app_objectif')}}>objectifs</a></li>
                             <li><a href={{path('app_suivi_objectif')}}>suivi_Objectifs</a></li>
-                         
-
                         </ul>
                     </li>
 
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
                                 class="icon icon-plug"></i><span class="nav-text">gestion repas et nutrtion</span></a>
                         <ul aria-expanded="false">
-                            <li><a href="./ons1.html">repas</a></li>
-                            <li><a href="./ons2.html">journal_nutrition</a></li>
+
+                            <li><a href={{path('app_ingredient_index')}}>Ingredients</a></li>
+                            <li><a href={{path('app_recette_index')}}>Recettes</a></li>
+                            
                           
                         </ul>
                     </li>

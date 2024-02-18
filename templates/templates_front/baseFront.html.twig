@@ -104,11 +104,10 @@
                     <ul class="rd-navbar-nav">
                       <li class="rd-nav-item active"><a class="rd-nav-link" href={{path('app_home')}}>Home</a>
                       </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href={{path('app_activite_index')}}>Activities</a>
+                     
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="{{path('app_journal_index')}}">Journal</a>
                       </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="typography.html">Food and nutrition</a>
-                      </li>
-                      <li class="rd-nav-item"><a class="rd-nav-link" href="contact-us.html">Check your calories</a>
+                      <li class="rd-nav-item"><a class="rd-nav-link" href="{{path('app_recette_indexf')}}">Recette</a>
                       </li>
                       <li class="rd-nav-item"><a class="rd-nav-link" href="contact-us.html">Marketplace</a>
                       </li>
@@ -175,7 +174,9 @@
                 
             {% endblock %}
 
-
+	</br>
+	</br>
+	</br>
 
       <!-- Page Footer-->
       <footer class="section footer-variant-2 footer-modern context-dark section-top-image section-top-image-dark">
@@ -304,6 +305,7 @@
     {% block javascripts %}
     <script src={{asset("/front_librairies/js/core.min.js")}}></script>
     <script src={{asset("/front_librairies/js/script.js")}}></script>
+    
     {% endblock %}
    
   </body>

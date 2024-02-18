@@ -1,0 +1,25 @@
+vich_uploader:
+    db_driver: orm
+
+    #mappings:
+    #    products:
+    #        uri_prefix: /images/products
+    #        upload_destination: '%kernel.project_dir%/public/images/products'
+    #        namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+
+    mappings:
+        ingredient_images:
+            uri_prefix: /images/ingredients
+            upload_destination: '%kernel.project_dir%/public/images/ingredients'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+
+        recette_images: #  le nom que vous souhaitez donner à votre mapping
+            uri_prefix: /images
+            upload_destination: '%kernel.project_dir%/public/images/recettes'
+            namer: Vich\UploaderBundle\Naming\UniqidNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true

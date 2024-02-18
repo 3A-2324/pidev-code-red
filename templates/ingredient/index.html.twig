@@ -1,0 +1,34 @@
+{% extends './templates_back/base.html.twig' %}
+
+{% block title %}Ingredient index
+{% endblock %}
+
+{% block body %}
+	<h1>Ingredient index</h1>
+	
+	<br/>
+	<a href="{{ path('app_ingredient_new') }}" class="btn btn-success">Create new</a>
+	<br/>
+	<br/>
+	<div class="row">
+		{% for ingredient in ingredients %}
+			<div class="col-md-4">
+				<div class="card mb-3">
+					<img src="{{ asset('img/' ~ ingredient.image) }}" class="card-img-top" alt="{{ ingredient.Nom }}">
+					<div class="card-body">
+						<h5 class="card-title">{{ ingredient.Nom }}</h5>
+						
+						<a href="{{ path('app_ingredient_show', {'id': ingredient.id}) }}" class="btn btn-primary">Show</a>
+						<a href="{{ path('app_ingredient_edit', {'id': ingredient.id}) }}" class="btn btn-secondary">Edit</a>
+					</div>
+				</div>
+			</div>
+		{% else %}
+			<div class="col">
+				<p>No records found</p>
+			</div>
+		{% endfor %}
+	</div>
+
+	
+{% endblock %}

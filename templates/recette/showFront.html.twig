@@ -1,0 +1,51 @@
+{% extends './templates_front/baseFront.html.twig' %}
+
+{% block title %}Recette
+{% endblock %}
+
+{% block body %}
+	<h1>Recette</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ recette.id }}</td>
+			</tr>
+			<tr>
+				<th>Nom</th>
+				<td>{{ recette.Nom }}</td>
+			</tr>
+			<tr>
+				<th>Categorie</th>
+				<td>{{ recette.Categorie }}</td>
+			</tr>
+			<tr>
+				<th>Image</th>
+				<td><img class="img-fluid rounded" src="{{ asset('img/' ~ recette.image) }}" style="width: 336px; height: 336px; object-fit: cover;"></td>
+			</tr>
+			<tr>
+				<th>Description</th>
+				<td>{{ recette.description }}</td>
+			</tr>
+			<tr>
+				<th>Calorie_recette</th>
+				<td>{{ recette.calorieRecette }}</td>
+			</tr>
+			<tr>
+				<th>Ingredients</th>
+				<td>
+					<ul>
+						{% for ingredient in recette.getIngredients() %}
+							<li>{{ ingredient.getNom() }}</li>
+						{% endfor %}
+					</ul>
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_recette_indexf') }}">back to list</a>
+
+
+{% endblock %}
