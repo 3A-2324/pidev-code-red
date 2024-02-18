@@ -1,0 +1,62 @@
+{% extends 'basef2.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+ {% block body %}
+ 
+
+
+
+
+    <h1>Profile</h1>
+
+    <table class="table">
+        <tbody>
+        {% for user in user %}
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ ser.Nom }}</td>
+            </tr>
+            <tr>
+                <th>Prénom</th>
+                <td>{{ user.Prenom }}</td>
+            </tr>
+            <tr>
+                <th>Date_de_naissance</th>
+                <td>{{ user.Date_de_naissance }}</td>
+            </tr>
+            <tr>
+                <th>Genre</th>
+                <td>{{ user.genre }}</td>
+            </tr>
+            <tr>
+                <th>Adresse</th>
+                <td>{{ user.Adresse }}</td>
+            </tr>
+            <tr>
+                <th>Numéro de téléphone</th>
+                <td>{{ user.Num_de_telephone }}</td>
+            </tr>
+            <tr>
+                <th>Rôle</th>
+                <td>{{ user.Role }}</td>
+            </tr>
+            <tr>
+                <th>E-mail</th>
+                <td>{{ user.Email }}</td>
+            </tr>
+             <tr>
+                <th>Mot_de_passe</th>
+                <td{{ user.Mot_de_passe }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+a
+    <a href="{{ path('modif_userf', {'id': user.id}) }}">Modifier</a>
+
+    
+{% endblock %}
