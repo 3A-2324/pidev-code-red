@@ -2,27 +2,33 @@
 
 namespace App\Form;
 
-use App\Entity\Activite;
+use App\Entity\Objectif;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-class ActiviteType extends AbstractType
+class ObjectifCRUDType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('sexe')
+            ->add('age')
+            ->add('height')
+            ->add('weight')
+            ->add('activity_level')
+            ->add('choix')
+            ->add('save',SubmitType::class)
+            ->add('calorie')
             
-            ->add('type')
-            ->add('nom')
-            ->add('nbrCal')
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Activite::class,
+            'data_class' => Objectif::class,
         ]);
     }
 }
