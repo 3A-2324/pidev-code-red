@@ -1,3 +1,5 @@
+{% extends 'templates_front/baseFront.html.twig' %}
+
 {% block styles %}
 <style>
     body {
@@ -42,7 +44,7 @@
 
 {% block body %}
 <div class="container">
-    <h1>Calories Result</h1>
+    <h4>Calories Result</h4>
     <p>Your daily caloric needs are: {{ calories }} calories.</p>
 </div>
 {% endblock %}

@@ -51,6 +51,11 @@ class Objectif
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
     private ?string $choix = null;
+     
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $datee = null;
+
 
     #[ORM\Column]
     private ?int $calorie = null;
@@ -129,6 +134,18 @@ class Objectif
     public function setChoix(string $choix): static
     {
         $this->choix = $choix;
+
+        return $this;
+    }
+
+    public function getDatee(): ?\DateTimeInterface
+    {
+        return $this->datee;
+    }
+
+    public function setDatee(\DateTimeInterface $datee): static
+    {
+        $this->datee = $datee;
 
         return $this;
     }

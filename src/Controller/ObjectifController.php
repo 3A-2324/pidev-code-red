@@ -24,14 +24,17 @@ class ObjectifController extends AbstractController
     #[Route('/objectif', name: 'app_objectif')]
     public function index(Request $request, ManagerRegistry $doctrine): Response
 {
+    $datee = $request->request->get('datee');
     if ($request->isMethod('POST')) {
         // Retrieve form data
+        
         $weight = $request->request->get('weight');
         $height = $request->request->get('height');
         $age = $request->request->get('age');
         $gender = $request->request->get('gender');
         $activityLevel = $request->request->get('activity_level');
         $choix = $request->request->get('objectif');
+        
         
 
         // Perform calories calculation (you can replace this with your own formula)
@@ -51,6 +54,7 @@ class ObjectifController extends AbstractController
             $a->setHeight($height);
             $a->setActivityLevel($activityLevel);
             $a->setChoix($choix);
+            $a->setDatee(new \DateTime($datee));
             $a->setCalorie($calories);
 
             // Injectiondu gestionnaire et enregistrement de l'objectif

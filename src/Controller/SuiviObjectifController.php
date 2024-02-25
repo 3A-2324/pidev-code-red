@@ -130,7 +130,27 @@ public function edit(ManagerRegistry $doctrine, Request $request, $id)
         }
     }
 }*/
+#[Route('/graphique-poids/{id_objectif}', name: 'graphique_poids')]
+public function graphiquePoids(ManagerRegistry $doctrine, $id_objectif): Response
+{
+    $objectif = $doctrine->getRepository(Objectif::class)->find($id_objectif);
+    $suiviObjectif = $doctrine->getRepository(SuiviObjectif::class)->findOneBy(['id_objectif' => $objectif]);
 
+    $weight = [];
+    $dates = [];
 
+    if ($objectif && $suiviObjectif) {
+        $weight[] = $objectif->getWeight();
+        $weight[] = $suiviObjectif->getNouveauPoids();
 
+        $dates[] = $objectif->getDatee()->format('Y-m-d');
+        $dates[] = $suiviObjectif->getDateSuivi()->format('Y-m-d');
+    }
+
+    // Render the result
+    return $this->render('templates_back/objectif_crud/progres.html.twig', [
+        'weights' => json_encode($weight),
+        'dates' => json_encode($dates),
+    ]);
+}
 }

@@ -20,7 +20,7 @@ class ObjectifCRUDType extends AbstractType
             ->add('activity_level')
             ->add('choix')
             ->add('save',SubmitType::class)
-            ->add('calorie')
+            
             
         ;
     }
