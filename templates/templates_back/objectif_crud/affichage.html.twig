@@ -1,105 +1,50 @@
-{% extends 'templates_back/base.html.twig' %}
 
 
 
-{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commentaire</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
 
+        .container {
+            max-width: 600px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-<style>
-table {
-  width: 20%;
-  border-collapse: collapse;
-  margin-top: 111px;
-   margin-left: 300px;
-
-  
-  
-  border: 20px solid #ddd;
-}
-
-table, th, td {
-  border: 1px solid #ddd;
-  
-}
-
-th, td {
-  padding: 30px;
-  text-align: left;
-}
-
-tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-th {
-  background-color: #4CAF50;
-  color: white;
-}
-
-caption {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-}
-
-img {
-  max-width: 100px;
-  max-height: 100px;
-}
-
-button {
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-button.delete {
-  background-color: #f44336;
-  color: white;
-  border: none;
-}
-
-button.delete:hover {
-  background-color: #d32f2f;
-}
-
-button.edit {
-  background-color: #2196F3;
-  color: white;
-  border: none;
-}
-
-button.edit:hover {
-  background-color: #1976D2;
-}
-
-</style>
+        p {
+            font-size: 18px;
+            color: #333;
+            margin: 0;
+            padding: 10px 0;
+            text-align: center;
+        }
+    </style>
 </head>
 <body>
-<table>
-  <caption>Les Auteurs </caption>
-  <tr>
-     <th>id</th>
-    <th>sexe</th>
-    <th>age</th>
-    <th>height</th>
-    <th>weight</th>
-    <th>activity_level</th>
-    <th>choix</th>
-    <th>calorie</th>
-  </tr>
-  {% for a in list %}
-  <tr>
-     <td>{{ a.id }}</td>
-    <td>{{ a.sexe }}</td>
-    <td>{{ a.age }}</td>
-    <td>{{ a.height }}</td>
-    <td>{{ a.weight }}</td>
-    <td>{{ a.activityLevel }}</td>
-    <td>{{ a.choix }}</td>
-    <td>{{ a.calorie }}</td>
-    
+    <div class="container">
+        <p>Commentaire : {{ commentaire }}</p>
+    </div>
+</body>
+</html>
 
-</tr>
-{% endfor %}
-</table>
 
-{% endblock %}
+
+
+
+

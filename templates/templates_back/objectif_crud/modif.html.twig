@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculateur de calories</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        form {
+            width: 50%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Calculateur de calories</h1>
+    <form method="post">
+        <label for="weight">Poids (en kg)</label>
+        <input type="text" id="weight" name="weight">
+
+        <label for="height">Taille (en cm)</label>
+        <input type="text" id="height" name="height">
+
+        <label for="age">Âge</label>
+        <input type="text" id="age" name="age">
+
+        <label for="gender">Sexe</label>
+        <select id="gender" name="gender">
+            <option value="male">Homme</option>
+            <option value="femme">Femme</option>
+        </select>
+
+        <label for="objectif">Objectif</label>
+        <select id="objectif" name="objectif">
+            <option value="Perdre_du_poids">Perdre du poids</option>
+            <option value="Gagner_du_poids">Gagner du poids</option>
+        </select>
+
+        <label for="activity_level">Niveau d'activité</label>
+        <select id="activity_level" name="activity_level">
+            <option value="1.2">Sédentaire</option>
+            <option value="1.375">Légèrement actif</option>
+            <option value="1.55">Modérément actif</option>
+            <option value="1.725">Très actif</option>
+            <option value="1.9">Extrêmement actif</option>
+        </select>
+
+        <input type="submit" value="modifier">
+    </form>
+</body>
+</html>

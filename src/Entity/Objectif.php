@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\ObjectifRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ObjectifRepository::class)]
 class Objectif
@@ -15,27 +18,49 @@ class Objectif
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
     private ?string $sexe = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
     private ?int $age = null;
 
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
+    #[Assert\Regex(
+        pattern: '/^\d+$/',
+        message: 'Le contenu doit contenir uniquement des chiffres'
+    )]
+    
     private ?int $height = null;
+    
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
+    #[Assert\Regex(
+        pattern: '/^\d+$/',
+        message: 'Le contenu doit contenir uniquement des chiffres'
+    )]
     private ?int $weight = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
     private ?string $activityLevel = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
     private ?string $choix = null;
+     
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $datee = null;
+
 
     #[ORM\Column]
     private ?int $calorie = null;
 
+   
     public function getId(): ?int
     {
         return $this->id;
@@ -113,6 +138,18 @@ class Objectif
         return $this;
     }
 
+    public function getDatee(): ?\DateTimeInterface
+    {
+        return $this->datee;
+    }
+
+    public function setDatee(\DateTimeInterface $datee): static
+    {
+        $this->datee = $datee;
+
+        return $this;
+    }
+
     public function getCalorie(): ?int
     {
         return $this->calorie;
@@ -124,4 +161,6 @@ class Objectif
 
         return $this;
     }
+
+   
 }
