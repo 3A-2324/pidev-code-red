@@ -16,22 +16,27 @@ class Recette
     private ?int $id = null;
 
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Veuillez entrer le nom de la recette')]
     #[ORM\Column(length: 255)]
     private ?string $Nom = null;
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Veuillez selectionner une categorie')]
     #[ORM\Column(length: 255)]
     private ?string $Categorie = null;
 
+    //#[Assert\NotBlank(message: 'Veuillez selectionner une image')]
     #[ORM\Column(length: 255)]
     private ?string $image = null;
 
-    #[Assert\NotBlank]
+    #[Assert\NotBlank(message: 'Veuillez entrer la description,')]
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-
+    #[Assert\NotBlank(message: 'Veuillez entrer le nombre de calories')]
+    #[Assert\GreaterThanOrEqual(
+    value: 0,
+    message: "La valeur des calories de la recette ne peut pas être négative."
+)]
     #[ORM\Column]
     private ?int $calorie_recette = null;
 
@@ -114,6 +119,10 @@ class Recette
         $this->calorie_recette = $calorie_recette;
 
         return $this;
+    }
+
+    public function __toString():string{
+        return $this->Nom;
     }
 
     /**

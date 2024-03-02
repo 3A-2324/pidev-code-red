@@ -1,0 +1,113 @@
+<head>
+    <style>
+        /**
+            Set the margins of the page to 0, so the footer and the header
+            can be of the full height and width !
+         **/
+        @page {
+            size: A4 portrait;
+            margin: 0cm;
+        }
+        /** Define now the real margins of every page in the PDF **/
+        body {
+            margin: 3.5cm 2.5cm 0.5cm;
+            position: relative;
+        }
+        /** Define the header rules **/
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3cm;
+        }
+        /** Define the footer rules **/
+        footer {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            height: 2cm;
+            margin: 0cm 2cm 0cm;
+        }
+        
+        .services-area {
+            background-color: #f8f9fa; /* Light gray background color */
+            padding-top: 100px;
+            padding-bottom: 150px;
+        }
+        
+        .section-title {
+            color: #004d40; /* Green color */
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+        
+        .divider {
+            width: 50px;
+            height: 2px;
+            background-color: #004d40; /* Green color */
+            margin: 0 auto 30px;
+        }
+        
+        .ingredient-column {
+            margin-bottom: 30px;
+        }
+        
+        .ingredient-item h4 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #333; /* Dark gray color */
+        }
+    </style>
+</head>
+<body>
+    <!-- Define header and footer blocks before your content -->
+    <header>
+        <div class="intro_price" style="color: orange;font-size: 20px;margin-left: 10px;margin-top: 10px">
+            <b>Opti'Health</b>
+        </div>
+        <div style="font-size: 15px;margin-left: 10px">
+            Adresse : Esprit Technopole Ghazela Ariana</div>
+        <div style="font-size: 15px;margin-left: 10px">
+            Numéro : +216 55 845 445</div>
+        <div style="font-size: 15px;margin-left: 10px">
+            E-mail : OptiHealth@gmail.com</div>
+
+        <hr class="cmDEY eufYP cDHZq" style="color: dimgray;width: 750px;">
+    </header>
+
+    <footer>
+        <div style="font-size: 15px;margin-left: 10px">
+            Thank you for using Opti'Health</div>
+        <div style="font-size: 15px;margin-left: 10px">
+            We hope that you had a pleasant experience with us</div>
+    </footer>
+
+    {% block body %}
+    <section class="services-area pt-100 pb-150 section-bg" data-background="{{ asset('img/logoopti.png')}}" >
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section-title text-center">
+                        <h5>Your Weekly Ingredient List</h5>
+                        <hr class="divider">
+                    </div>
+                </div>
+            </div>
+            
+            
+                <div class="col-lg-6">
+                    <div class="ingredient-column">
+                        {% for journal in journals %}
+                            <div class="ingredient-item">
+                                <h4>{{ journal.nom }}</h4>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                
+            
+        </div>
+    </section>
+    {% endblock %}
+</body>

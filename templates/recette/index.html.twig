@@ -1,155 +1,154 @@
 {% extends './templates_back/base.html.twig' %}
 
-{% block title %}Recette index
-{% endblock %}
+{% block title %}Recette index{% endblock %}
 
 {% block body %}
-	<h1>Recette index</h1>
+    <h1>Recette index</h1>
 
-	<div class="actions">
-	<a href="{{ path('app_recette_new') }}" class="btn btn-success">Create new</a>
-	</div>
-	<section>
-		<div class="row">
-			{% for recette in recettes %}
-				<div class="col-md-4 col-sm-6 col-xs-12">
-					<div class="card">
-						<div class="cover item-a" style="background-image: url('{{ asset('img/' ~ recette.image) }}')">
-							<h1>{{ recette.Nom }}</h1>
-							<span class="price">{{ recette.calorieRecette }}</span>
-							<div class="card-back">
-								<p>{{ recette.description }}</p>
-								<div class="actions">
-									<a href="{{ path('app_recette_show', {'id': recette.id}) }}" class="btn btn-primary">Show</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<td></td>
-			{% endfor %}
-		</div>
-	</section>
+    <div class="actions">
+        <a href="{{ path('app_recette_new') }}" class="btn btn-success">Create new</a>
+    </div>
+    
+    <br>
 
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;600 &display=swap');
+    <form class="form-inline bg-light p-3 rounded">
+        <div class="form-group ml-2">
+            <label for="categorieFilter" class="mr-2">Filter by Categorie:</label>
+            <select class="form-control" id="categorieFilter">
+                <option value="">All</option>
+                {% set categories = [] %}
+                {% for recette in recettes %}
+                    {% if recette.Categorie not in categories %}
+                        {% set categories = categories|merge([recette.Categorie]) %}
+                        <option value="{{ recette.Categorie }}">{{ recette.Categorie }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group mr-2">
+            <label for="sortBy" class="mr-2">Sort by:</label>
+            <select class="form-control" id="sortBy">
+                <option value="nom">Nom</option>
+                <option value="categorie">Categorie</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="searchInput" placeholder="Rechercher Recette&hellip;">
+        </div>       
+    </form>
 
-		$transition-time: 2.3s;
+    <div class="card mt-3">
+        <div class="card-body">
+            <table class="table custom-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>categorie</th>
+                        <th>Calories</th>
+                        <th>Description</th>
+                        
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for recette in recettes %}
+                        <tr>
+                            <td>{{ recette.Nom }}</td>
+                            <td>{{ recette.Categorie }}</td>
+                            <td>{{ recette.calorieRecette }}</td>
+                            <td>{{ recette.description }}</td>
+                            <td><img style="width:50px;height:50px;" src="{{ asset('img/' ~ recette.image) }}"></td>
+                            <td>
+                                <a href="{{ path('app_recette_show', {'id': recette.id}) }}" class="btn btn-primary">Show</a>
+                                <a href="{{ path('app_recette_edit', {'id': recette.id}) }}" class="btn btn-secondary">Edit</a>
+                                {{ include('recette/_delete_form.html.twig') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
 
-		body {
-			font-family: 'Oswald', sans-serif;
-			background-color: #212121;
-		}
+    <style>
+        /* Custom styles for the table */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
 
+        .custom-table th,
+        .custom-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd; /* Adding borders */
+        }
 
-		section {
-			width: 90%;
-			max-width: 1200px;
-			margin: 0 auto;
-		}
-		.row {
-			display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-		}
+        .custom-table thead th {
+            background-color: #6fbf73; /* Shade of green */
+            color: #fff; /* White text color */
+        }
 
-		.card {
-			position: relative;
-			height: 400px;
-			width: 100%;
-			margin: 10px 0;
-			transition: ease all $transition-time;
-			perspective: 1200px;
-		}
+        .custom-table tbody tr:hover {
+            background-color: #f3f4f6;
+        }
+    </style>
 
-		.card:hover .cover {
-			transform: rotateX(0deg) rotateY(-180deg);
-		}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-		.cover {
-			position: absolute;
-			height: 100%;
-			width: 100%;
-			transform-style: preserve-3d;
-			transition: ease all $transition-time;
-			background-size: cover;
-			background-position: center center;
-			background-repeat: no-repeat;
-		}
+    <script>
+        // JavaScript for sorting and filtering the table
+        function sortTable() {
+            const sortBy = document.getElementById('sortBy').value;
+            const rows = Array.from(document.querySelectorAll('table tbody tr'));
 
-		.cover:before {
-			content: '';
-			position: absolute;
-			border: 5px solid rgba(255, 255, 255, 0.5);
-			box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
-			top: 20px;
-			left: 20px;
-			right: 20px;
-			bottom: 20px;
-			z-index: 2;
-			transition: ease all $transition-time;
-			transform-style: preserve-3d;
-			transform: translateZ(0px);
-		}
+            rows.sort((a, b) => {
+                const aValue = a.querySelector(`td:nth-child(${sortBy === 'nom' ? 1 : 2})`).textContent.trim();
+                const bValue = b.querySelector(`td:nth-child(${sortBy === 'nom' ? 1 : 2})`).textContent.trim();
+                return aValue.localeCompare(bValue);
+            });
 
-		.cover:after {
-			content: '';
-			position: absolute;
-			top: 0;
-			left: 0;
-			right: 0;
-			bottom: 0;
-			z-index: 2;
-			transition: ease all 1.3s;
-			background: rgba(0, 0, 0, 0.4);
-		}
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+            rows.forEach(row => {
+                tbody.appendChild(row);
+            });
+        }
 
-		.cover h1 {
-			font-weight: 600;
-			position: absolute;
-			bottom: 55px;
-			left: 50px;
-			color: white;
-			transform-style: preserve-3d;
-			transition: ease all $transition-time;
-			z-index: 3;
-			font-size: 3em;
-			transform: translateZ(0px);
-		}
+        document.getElementById('sortBy').addEventListener('change', sortTable);
 
-		.cover .price {
-			font-weight: 200;
-			position: absolute;
-			top: 55px;
-			right: 50px;
-			color: white;
-			transform-style: preserve-3d;
-			transition: ease all $transition-time;
-			z-index: 4;
-			font-size: 2em;
-			transform: translateZ(0px);
-		}
+        function filterTable() {
+            const filter = document.getElementById('searchInput').value.toUpperCase();
+            const rows = document.querySelectorAll('table tbody tr');
+            for (let i = 0; i < rows.length; i++) {
+                const cols = rows[i].querySelectorAll('td');
+                let visible = false;
+                for (let j = 0; j < cols.length; j++) {
+                    const cell = cols[j];
+                    if (cell.innerText.toUpperCase().indexOf(filter) > -1) {
+                        visible = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = visible ? '' : 'none';
+            }
+        }
 
-		.card-back {
-			position: absolute;
-			height: 100%;
-			width: 100%;
-			background: #0b0f08;
-			transition: ease all $transition-time;
-			transform: translateZ(-1px) rotatey(-180deg);
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			backface-visibility: hidden; /* This prevents flipping of content */
-		}
+        document.getElementById('searchInput').addEventListener('keyup', filterTable);
 
-		.card-back p {
-			font-weight: 200;
-			font-size: 1.3em;
-			color: white;
-			padding: 14px 32px;
-			text-align: center;
-		}
-	</style>
-
+        // JavaScript for filtering the table by categorieing
+        document.getElementById('categorieFilter').addEventListener('change', function() {
+            const categorieFilter = this.value.toUpperCase();
+            const rows = document.querySelectorAll('table tbody tr');
+            for (let i = 0; i < rows.length; i++) {
+                const categorie = rows[i].querySelector('td:nth-child(2)').textContent.toUpperCase();
+                if (categorieFilter === '' || categorie === categorieFilter) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        });
+    </script>
 {% endblock %}

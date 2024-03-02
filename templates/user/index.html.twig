@@ -1,0 +1,90 @@
+{% extends './templates_back/base.html.twig' %}
+
+{% block title %}Liste des Utilisateurs {% endblock %}
+
+{% block body %}
+<style>
+    /* Center the table on the page */
+    .table-container {
+       
+     max-width: 500px;
+    width: 90%; /* Réduire légèrement la largeur */
+    margin-left: 15%; /* Ajouter une marge à gauche pour dériver le tableau vers la gauche */
+    
+    }
+    
+    /* Style the table */
+    .table-container table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+    
+    /* Style table headers */
+    .table-container th {
+        background-color:  #B7E4C7; /* Set background color to green */
+        color: #000; /* Set text color to black */
+        border: 1px solid #ddd;
+        padding: 5px;
+        text-align: left;
+        
+    }
+   
+    /* Style table cells */
+    .table-container td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    
+    /* Style table rows */
+    .table-container tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+    
+    /* Style table rows on hover */
+    .table-container tr:hover {
+        background-color: #ddd;
+    }
+</style>
+
+<div class="table-container">
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de naissance</th>
+                <th>Genre</th>
+                <th>Adresse</th>
+                <th>Numéro de téléphone</th>
+                <th>Role</th>
+                <th>E-mail</th>
+                <th>Mot de passe</th>
+                <th>Supprimer</th>
+                <th>Modifier</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in u %}
+                <tr>
+                    <td>{{ user.Nom }}</td>
+                    <td>{{ user.Prenom }}</td>
+                    <td>{{ user.Datedenaissance|date('Y-m-d') }}</td> {# Formatage de la date #}
+                    <td>{{ user.Genre }}</td>
+                    <td>{{ user.Adresse }}</td>
+                    <td>{{ user.Numdetelephone }}</td>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                    <td>{{ user.Email }}</td>
+                    <td>{{ user.password }}</td>
+                    <td>
+                        <a href="{{ path('supp_user', {'id': user.id}) }}">Supprimer</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('modif_user', {'id': user.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

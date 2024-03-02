@@ -24,12 +24,7 @@ class JournalType extends AbstractType
                     'class' => 'datepicker', // Assign a class for initialization with JS
                 ],
             ])
-            ->add('RecetteRef', EntityType::class, [
-                'class' => Recette::class,
-                'multiple' => true,
-                'expanded' => true,
-                'choice_label' => 'Nom',
-            ])
+            ->add('RecetteRef')
             ->add('save', SubmitType::class);
     }
 

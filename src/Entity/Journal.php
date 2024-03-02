@@ -26,6 +26,9 @@ class Journal
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $Date = null;
 
+    #[ORM\ManyToOne(inversedBy: 'journals')]
+    private ?User $id_user = null;
+
     public function __construct()
     {
         $this->RecetteRef = new ArrayCollection();
@@ -52,6 +55,8 @@ class Journal
 {
     return $this->calories_journal;
 }
+
+
 
    
 
@@ -99,6 +104,18 @@ class Journal
     public function removeRecetteRef(Recette $recetteRef): static
     {
         $this->RecetteRef->removeElement($recetteRef);
+
+        return $this;
+    }
+
+    public function getIdUser(): ?User
+    {
+        return $this->id_user;
+    }
+
+    public function setIdUser(?User $id_user): static
+    {
+        $this->id_user = $id_user;
 
         return $this;
     }

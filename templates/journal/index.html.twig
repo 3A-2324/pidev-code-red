@@ -4,54 +4,53 @@
 
 
 {% block body %}
-    <h1>Journal index</h1>
 
-   
+<div class="actions">
+        <a href="{{ path('app_journal_new') }}" class="btn btn-success">Create new</a>
+    </div>
+<style>
+        #calendrier{
+            width: 60%;
+            margin: auto;
+        }
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Date</th>
-				<th>nb calories</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for journal in journals %}
-                <tr>
-                    <td>{{ journal.id }}</td>
-                    <td>{{ journal.date ? journal.date|date('Y-m-d') : '' }}</td>
-					<td>{{journal.getCaloriesJournal()}}</td>
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js" integrity="sha256-i4vDW9EgtaJmeauDDymtNF2omPZ1fCKpf4w1gBlU1IE=" crossorigin="anonymous"></script>
 
-                    <td>
-                        <a href="{{ path('app_journal_show', {'id': journal.id}) }}">Show</a>
-                        <a href="{{ path('app_journal_edit', {'id': journal.id}) }}">Edit</a>
-                    </td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="3">No records found</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<div id= "calendrier">
+</div>
+<a href="{{ path('generate_weekly_ingredient_pdf') }}" class="btn btn-success">liste course</a>
+<script>
+    window.onload = () => {
+        let calendarElt = document.querySelector("#calendrier")
 
-    <a href="{{ path('app_journal_new') }}">Create new</a>
+        let calendar = new FullCalendar.Calendar(calendarElt, {
+            initialView: 'dayGridMonth',
+            events: {{ data|raw }},
+            editable: true,
+            eventResizableFromStart: true,
+            eventClick: function(info) {
+                // Redirect to the show route of the clicked event
+                window.location.href = "{{ path('app_journal_show', {'id': 'event_id'})|raw }}".replace('event_id', info.event.id);
+            },
+            eventMouseEnter: function(info) {
+                info.el.style.backgroundColor = '#f0f0f0'; // Change background color on hover
+            },
+            eventMouseLeave: function(info) {
+                info.el.style.backgroundColor = '#106040'; // Reset background color when mouse leaves
+            }
+        });
+        calendar.render();
 
-    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
-		<script>
-			// Ensure jQuery is loaded
-if (typeof jQuery == 'undefined') {
-console.error('jQuery is not loaded!');
-} else {
-console.log('jQuery is loaded!');
-}
+        
+         const headerButtons = document.querySelectorAll('.fc-header-toolbar button');
+        headerButtons.forEach(button => {
+            button.style.backgroundColor = '#34ab7c'; // Change to your desired color
+            button.style.borderColor = '#34ab7c';
+            button.style.color = '#fff'; // Change text color if necessary
+        });
+    }
+</script>
 
-// Initialize Bootstrap Datepicker
-$('.datepicker').datepicker({format: 'yyyy-mm-dd'});
-		</script>
 
 {% endblock %}

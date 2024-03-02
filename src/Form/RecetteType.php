@@ -10,6 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class RecetteType extends AbstractType
 {
@@ -17,21 +19,26 @@ class RecetteType extends AbstractType
     {
         $builder
             ->add('Nom')
-            ->add('Categorie')
+            ->add('Categorie', ChoiceType::class, [
+                'choices' => [
+                    'Dejeuner et Brunch' => 'Dejeuner_et_Brunch',
+                    'Dessert' => 'Dessert',
+                    'Plats Principaux' => 'Plats_Principaux',
+                    'Collation' => 'Collation',
+                ],
+                'placeholder' => 'Choose a category', // Optional placeholder
+                'label' => 'Categorie', // Optional label
+                'attr' => ['class' => 'form-control'], // Optional CSS class
+            ])
             ->add('image', FileType::class, [
                 'label' => 'Votre Image (JPG, JPEG, PNG file)',
                 'mapped' => false,
                 'required' => false,
                 'attr' => ['accept' => 'image/*'],
             ])
-            ->add('description')
+            ->add('description',TextareaType::class ,['attr'=>['row'=>20 ,'cols'=>60]])
             ->add('calorie_recette')
-            ->add('Ingredients', EntityType::class, [
-                'class' => Ingredient::class,
-                'multiple' => true,
-                'expanded' => true, 
-                'choice_label' => 'Nom', 
-            ]);
+            ->add('Ingredients');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

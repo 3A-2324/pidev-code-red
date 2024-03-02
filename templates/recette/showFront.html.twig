@@ -1,51 +1,65 @@
 {% extends './templates_front/baseFront.html.twig' %}
 
-{% block title %}Recette
-{% endblock %}
+{% block title %}Recette{% endblock %}
 
 {% block body %}
-	<h1>Recette</h1>
+<br><br><br>
+<div class="container">
+    <h1 class="mb-4">{{ recette.Nom }}</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <img class="img-fluid rounded mb-4" src="{{ asset('img/' ~ recette.image) }}" alt="{{ recette.Nom }}" style="width: 800px; height: 400px;">
+        </div>
+    </div>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ recette.id }}</td>
-			</tr>
-			<tr>
-				<th>Nom</th>
-				<td>{{ recette.Nom }}</td>
-			</tr>
-			<tr>
-				<th>Categorie</th>
-				<td>{{ recette.Categorie }}</td>
-			</tr>
-			<tr>
-				<th>Image</th>
-				<td><img class="img-fluid rounded" src="{{ asset('img/' ~ recette.image) }}" style="width: 336px; height: 336px; object-fit: cover;"></td>
-			</tr>
-			<tr>
-				<th>Description</th>
-				<td>{{ recette.description }}</td>
-			</tr>
-			<tr>
-				<th>Calorie_recette</th>
-				<td>{{ recette.calorieRecette }}</td>
-			</tr>
-			<tr>
-				<th>Ingredients</th>
-				<td>
-					<ul>
-						{% for ingredient in recette.getIngredients() %}
-							<li>{{ ingredient.getNom() }}</li>
-						{% endfor %}
-					</ul>
-				</td>
-			</tr>
-		</tbody>
-	</table>
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th style="width: 150px;">Calories</th>
+                <td>{{ recette.calorieRecette }}</td>
+            </tr>
+            <tr>
+                <th>Categorie</th>
+                <td>{{ recette.Categorie }}</td>
+            </tr>
+            <tr>
+                <th>Ingredients</th>
+                <td>
+                    <ul class="list-unstyled">
+                        {% for ingredient in recette.getIngredients() %}
+                            <li>{{ ingredient.getNom() }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ recette.description }}</td>
+            </tr>
+        </tbody>
+    </table>
 
-	<a href="{{ path('app_recette_indexf') }}">back to list</a>
+    <a href="{{ path('app_recette_indexf') }}" class="btn btn-primary">Back to List</a>
+</div>
 
+<style>
+    h1 {
+        font-size: 32px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    table th {
+        width: 200px;
+        font-weight: bold;
+        background-color: #f2f2f2;
+    }
+    table td {
+        vertical-align: top;
+    }
+    ul.list-unstyled {
+        margin-bottom: 0;
+    }
+</style>
 
 {% endblock %}

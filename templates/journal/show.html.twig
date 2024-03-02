@@ -1,36 +1,45 @@
 {% extends './templates_front/baseFront.html.twig' %}
 
-{% block title %}Journal
-{% endblock %}
+{% block title %}Journal {{ journal.id }}{% endblock %}
 
 {% block body %}
-	<h1>Journal</h1>
+<br>
+<div class="container">
+    <h4 class="mb-4">Journal Details</h4>
+    <a href="{{ path('app_journal_edit', {'id': journal.id}) }}" class="btn btn-secondary">Edit</a>
+    
+    <p><strong>Date:</strong> {{ journal.date ? journal.date|date('Y-m-d') : '' }}</p>
+    
+    <p><strong>Calories Journal:</strong> {{ journal.calories_journal }}</p>
 
-	<table class="table">
-		<tbody>
-			<tr>
-				<th>Id</th>
-				<td>{{ journal.id }}</td>
-			</tr>
-	
-			<tr>
-				<th>Date</th>
-				<td>{{ journal.date ? journal.date|date('Y-m-d') : '' }}</td>
-			</tr>
-			<tr>
-				<th>Recette(s)</th>
-				<td>
-					<ul>
-						{% for recette in journal.recetteRef %}
-							<li>{{ recette.nom }}</li>
-						{% endfor %}
-					</ul>
-				</td>
-			</tr>
-		</tbody>
-	</table>
-
-	<a href="{{ path('app_journal_index') }}">Back to list</a>
-	<a href="{{ path('app_journal_edit', {'id': journal.id}) }}">Edit</a>
-	{{ include('journal/_delete_form.html.twig') }}
+    <h4 class="mb-3">Associated Recettes:</h4>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>image</th>
+                            <th>Name</th>
+                            <th>Calories</th>
+                            <th>action</th>
+                            <!-- Include other table headers for additional properties of recette as needed -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for recette in journal.recettes %}
+                        <tr>
+                            <td><img style="width:50px;height:50px;" src="{{ asset('img/' ~ recette.Image) }}"</td>
+                            <td>{{ recette.nom }}</td>
+                            <td>{{ recette.calorieRecette }}</td>
+                            <td><a href="{{ path('app_recette_showfront', {'id': recette.id}) }}" class="btn btn-primary">Show</a></td>
+                            <!-- Include other table cells for additional properties of recette as needed -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

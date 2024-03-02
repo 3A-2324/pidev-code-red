@@ -1,34 +1,148 @@
 {% extends './templates_back/base.html.twig' %}
 
-{% block title %}Ingredient index
-{% endblock %}
+{% block title %}Ingredient index{% endblock %}
 
 {% block body %}
-	<h1>Ingredient index</h1>
-	
-	<br/>
-	<a href="{{ path('app_ingredient_new') }}" class="btn btn-success">Create new</a>
-	<br/>
-	<br/>
-	<div class="row">
-		{% for ingredient in ingredients %}
-			<div class="col-md-4">
-				<div class="card mb-3">
-					<img src="{{ asset('img/' ~ ingredient.image) }}" class="card-img-top" alt="{{ ingredient.Nom }}">
-					<div class="card-body">
-						<h5 class="card-title">{{ ingredient.Nom }}</h5>
-						
-						<a href="{{ path('app_ingredient_show', {'id': ingredient.id}) }}" class="btn btn-primary">Show</a>
-						<a href="{{ path('app_ingredient_edit', {'id': ingredient.id}) }}" class="btn btn-secondary">Edit</a>
-					</div>
-				</div>
-			</div>
-		{% else %}
-			<div class="col">
-				<p>No records found</p>
-			</div>
-		{% endfor %}
-	</div>
+    <h1>Recette index</h1>
 
-	
+    <div class="actions">
+        <a href="{{ path('app_ingredient_new') }}" class="btn btn-success">Create new</a>
+    </div>
+    
+    <br>
+    <form class="form-inline bg-light p-3 rounded">
+    <div class="form-group ml-2">
+            <label for="categorieFilter" class="mr-2">Filter by Categorieing:</label>
+            <select class="form-control" id="categorieFilter">
+                <option value="">All</option>
+                {% for ingredient in ingredients %}
+                    {% set category = ingredient.categorieing %}
+                    {% if category %}
+                        <option value="{{ category }}">{{ category }}</option>
+                    {% endif %}
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group mr-2">
+            <label for="sortBy" class="mr-2">Sort by:</label>
+            <select class="form-control" id="sortBy">
+                <option value="nom">Nom</option>
+                <option value="categorie">Categorie</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="text" class="form-control" id="searchInput" placeholder="Rechercher Ingredient...">
+        </div>
+        
+    </form>
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <table class="table custom-table">
+                <thead>
+                    <tr>
+                        <th>Nom</th>
+                        <th>Categorie</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ingredient in ingredients %}
+                        <tr>
+                            <td>{{ ingredient.Nom }}</td>
+                            <td>{{ ingredient.categorieing }}</td>
+                            <td><img style="width:50px;height:50px;" src="{{ asset('img/' ~ ingredient.image) }}"</td>
+                            <td>
+                                <a href="{{ path('app_ingredient_show', {'id': ingredient.id}) }}" class="btn btn-primary">Show</a>
+                                <a href="{{ path('app_ingredient_edit', {'id': ingredient.id}) }}" class="btn btn-secondary">Edit</a>
+                                {{ include('ingredient/_delete_form.html.twig') }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <style>
+        /* Custom styles for the table */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd; /* Adding borders */
+        }
+
+        .custom-table thead th {
+            background-color: #6fbf73; /* Shade of green */
+            color: #fff; /* White text color */
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #f3f4f6;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // JavaScript for sorting and filtering the table
+        function sortTable() {
+            const sortBy = document.getElementById('sortBy').value;
+            const rows = Array.from(document.querySelectorAll('table tbody tr'));
+
+            rows.sort((a, b) => {
+                const aValue = a.querySelector(`td:nth-child(${sortBy === 'nom' ? 1 : 2})`).textContent.trim();
+                const bValue = b.querySelector(`td:nth-child(${sortBy === 'nom' ? 1 : 2})`).textContent.trim();
+                return aValue.localeCompare(bValue);
+            });
+
+            const tbody = document.querySelector('table tbody');
+            tbody.innerHTML = '';
+            rows.forEach(row => {
+                tbody.appendChild(row);
+            });
+        }
+
+        document.getElementById('sortBy').addEventListener('change', sortTable);
+
+        function filterTable() {
+            const filter = document.getElementById('searchInput').value.toUpperCase();
+            const rows = document.querySelectorAll('table tbody tr');
+            for (let i = 0; i < rows.length; i++) {
+                const cols = rows[i].querySelectorAll('td');
+                let visible = false;
+                for (let j = 0; j < cols.length; j++) {
+                    const cell = cols[j];
+                    if (cell.innerText.toUpperCase().indexOf(filter) > -1) {
+                        visible = true;
+                        break;
+                    }
+                }
+                rows[i].style.display = visible ? '' : 'none';
+            }
+        }
+
+        document.getElementById('searchInput').addEventListener('keyup', filterTable);
+
+        // JavaScript for filtering the table by categorieing
+        document.getElementById('categorieFilter').addEventListener('change', function() {
+            const categorieFilter = this.value.toUpperCase();
+            const rows = document.querySelectorAll('table tbody tr');
+            for (let i = 0; i < rows.length; i++) {
+                const categorie = rows[i].querySelector('td:nth-child(2)').textContent.toUpperCase();
+                if (categorieFilter === '' || categorie === categorieFilter) {
+                    rows[i].style.display = '';
+                } else {
+                    rows[i].style.display = 'none';
+                }
+            }
+        });
+    </script>
 {% endblock %}

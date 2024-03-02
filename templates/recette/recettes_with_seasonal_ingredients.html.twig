@@ -1,0 +1,24 @@
+
+{% block title %}Recettes with Seasonal Ingredients{% endblock %}
+
+{% block body %}
+  <h1>Recettes with Seasonal Ingredients</h1>
+  {% if recettes is empty %}
+    <p>No recettes found with seasonal ingredients.</p>
+  {% else %}
+    <ul>
+      {% for recette in recettes %}
+        <li>{{ recette.name }}</li>
+        <ul>
+          {% for ingredient in recette.ingredients %}
+            {% if ingredient.name in seasonalIngredients %}
+              <li>{{ ingredient.name }} (Seasonal)</li>
+            {% else %}
+              <li>{{ ingredient.name }}</li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+      {% endfor %}
+    </ul>
+  {% endif %}
+{% endblock %}

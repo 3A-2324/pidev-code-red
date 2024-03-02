@@ -1,34 +1,108 @@
 {% extends './templates_front/baseFront.html.twig' %}
 
-{% block title %}Recette index
-{% endblock %}
-
 {% block body %}
-	<h1>Recette index</h1>
 
 
-	<section>
-		<div class="row">
-			{% for recette in recettes %}
-				<div class="col-md-4 col-sm-6 col-xs-12">
-					<div class="card">
-						<div class="cover item-a" style="background-image: url('{{ asset('img/' ~ recette.image) }}')">
-							<h1>{{ recette.Nom }}</h1>
-							<span class="price">{{ recette.calorieRecette }}  Calories</span>
-							<div class="card-back">
-								<p>{{ recette.description }}</p>
-								<div class="actions">
-									<a href="{{ path('app_recette_showfront', {'id': recette.id}) }}" class="btn btn-primary">Show</a>
-								</div>
+
+
+<h1>suggest index</h1>
+
+<section>
+    <div class="row">
+        {% for recipe in suggested_recipes %}
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="card">
+                    <div class="cover item-a" style="background-image: url('{{ asset('img/' ~ recipe.image) }}')">
+                        <h1>{{ recipe.Nom }}</h1>
+                        <span class="price">{{ recipe.calorieRecette }}</span>
+                        <div class="card-back">
+                            <p>{{ recipe.description }}</p>
+                            <div class="actions">
+                                <a href="{{ path('app_recette_showfront', {'id': recipe.id}) }}" class="btn btn-primary">Show</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <td></td>
+        {% endfor %}
+    </div>
+
+</section>
+
+<br>
+<br>
+<br>
+<h1>recette index</h1>
+
+
+<section id="recipeSection">
+    <div class="card-body">
+        <select id="filter-ing" name="filter-ing" class="empty">
+        	<option value="0">Filtrer par Ingredient</option>
+			{% for ingredient in ingredients %}
+            <option value="{{ ingredient.id }}">{{ ingredient.Nom }}</option>
+			{% endfor %}
+        </select>
+    </div>
+    <div class="row">
+	
+        {% for recette in recettes %}
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="card recette-info" data-id="{{ recette.id }}" data-nom="{{ recette.Nom }}" data-calorie="{{ recette.calorieRecette }}" data-description="{{ recette.description }}">
+					<div class="cover item-a" style="background-image: url('{{ asset('img/' ~ recette.image) }}')">
+						<h1>{{ recette.Nom }}</h1>
+						<span class="price">{{ recette.calorieRecette }}</span>
+						<div class="card-back">
+							<p>{{ recette.description }}</p>
+							<div class="actions">
+								<a href="{{ path('app_recette_showfront', {'id': recette.id}) }}" class="btn btn-primary">Show</a>
 							</div>
 						</div>
 					</div>
 				</div>
-				<td></td>
-			{% endfor %}
-		</div>
-	</section>
 
+            </div>
+            <td></td>
+        {% endfor %}
+		
+    </div>
+</section>
+<div class="card-footer">
+			<br>
+			<div class="pagination">
+				{% do recettes.setPageRange(6) %}
+				{{knp_pagination_render(recettes, 'pagination.html.twig')}}
+			</div>
+		</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+    $('#filter-status').change(function() {
+        var selectedOption = $(this).val(); 
+
+        // Récupération des valeurs de la recette sélectionnée
+        var rowTable = $('.recette-info');
+        var recetteId = rowTable.data('id');
+        var recetteNom = rowTable.data('nom');
+        var recetteCalorie = rowTable.data('calorie');
+        var recetteDescription = rowTable.data('description');
+
+        // Comparaison avec les valeurs de la recette
+        var t = (selectedOption == recetteId); // Comparaison d'identifiants par exemple
+
+        // Afficher le résultat dans la console
+        if (t === true)
+            console.log(true);
+        else
+            console.log(false);
+    });
+});
+		 
+</script>
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;600 &display=swap');
 
@@ -39,21 +113,22 @@
 			background-color: #212121;
 		}
 
+
 		section {
 			width: 90%;
-			max-width: 1200px;
+			max-width: 900px;
 			margin: 0 auto;
 		}
-
 		.row {
-			align-items: center;
-			height: 100vh;
+			display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
 		}
 
 		.card {
 			position: relative;
-			height: 400px;
-			width: 100%;
+			height: 300px;
+			width: 90%;
 			margin: 10px 0;
 			transition: ease all $transition-time;
 			perspective: 1200px;
@@ -140,13 +215,35 @@
 			backface-visibility: hidden; /* This prevents flipping of content */
 		}
 
-		.card-back p {
+				.card-back p {
 			font-weight: 200;
-			font-size: 1.3em;
+			font-size: 0.9em; /* Reduce font size */
 			color: white;
-			padding: 14px 32px;
+			padding: 8px 20px; /* Adjust padding */
 			text-align: center;
+			max-width: 15ch; /* Set maximum width */
+			word-wrap: break-word; /* Allow words to break and wrap */
 		}
+		h1, .heading-1 {
+  			font-size: 20px;
+ 			 line-height: 0.88;
+  			letter-spacing: .075em;
+	}
+
+	.bg-transparent {
+  background-color: transparent !important;
+}
+
+.btn-transparent {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: inherit !important;
+}
+
 	</style>
+
+
+	
+
 
 {% endblock %}

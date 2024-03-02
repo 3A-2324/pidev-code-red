@@ -21,6 +21,45 @@ class JournalRepository extends ServiceEntityRepository
         parent::__construct($registry, Journal::class);
     }
 
+
+
+    
+    /**
+     * Find journals by week.
+     *
+     * @param \DateTime $startOfWeek
+     * @param \DateTime $endOfWeek
+     * @return array
+     */
+    public function findJournalsByWeek(\DateTime $start): array
+    {
+        $conn = $this->getEntityManager()->getConnection();
+        
+        $startDate = new \DateTime($start->format('Y-m-d'));
+        $endDate = (clone $startDate)->modify('+30 days');
+
+        $sql = '
+            SELECT DISTINCT ingredient.nom
+            FROM journal j
+            JOIN journal_recette ON j.id = journal_recette.journal_id
+            JOIN recette ON journal_recette.recette_id = recette.id
+            JOIN recette_ingredient ON recette.id = recette_ingredient.recette_id
+            JOIN ingredient ON recette_ingredient.ingredient_id = ingredient.id
+            WHERE j.date BETWEEN :start AND :end
+        ';
+
+        // Convert DateTime objects to strings
+        $params = [
+            'start' => $startDate->format('Y-m-d'),
+            'end' => $endDate->format('Y-m-d')
+        ];
+
+        $resultSet = $conn->executeQuery($sql, $params);
+
+        // returns an array of arrays (i.e. a raw data set)
+        return $resultSet->fetchAllAssociative();
+    }
+
 //    /**
 //     * @return Journal[] Returns an array of Journal objects
 //     */
@@ -66,5 +105,7 @@ public function sumCaloriesByDate(\DateTimeInterface $date): array
         ->getQuery()
         ->getResult();
 }
+
+
 
 }

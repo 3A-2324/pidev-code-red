@@ -1,0 +1,121 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un utilisateur{% endblock %}
+
+{% block body %}
+
+{{ form_start(f,{'attr': {'novalidate': 'novalidate'}} ) }} 
+
+<style>
+    /* Style du conteneur du formulaire */
+    .form-container {
+        max-width: 400px;
+        margin: 100px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    /* Style des champs de formulaire */
+    .form-container input[type=text],
+    .form-container input[type=email],
+    .form-container input[type=password] {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin: 8px 0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    /* Style du bouton de soumission */
+    .form-container button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        margin-top: 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: calc(100% - 20px);
+        font-size: 16px;
+        transition: background-color 0.3s;
+    }
+
+    /* Changement de couleur du bouton au survol */
+    .form-container button:hover {
+        background-color: #45a049;
+    }
+
+    /* Style du titre du formulaire */
+    .form-title {
+        color: #4CAF50; /* Couleur du titre en vert */
+        font-size: 24px;
+        margin-bottom: 20px;
+    }
+
+    /* Style du message d'erreur */
+    .error-message {
+        color: red;
+        margin-top: 5px;
+        text-align: left;
+    }
+
+    /* Style de l'étiquette */
+    label {
+        font-size: 16px;
+        margin-bottom: 5px;
+        text-align: left;
+        display: block;
+    }
+</style>
+<div class="form-container">
+    <h2 class="form-title">Ajouter un utilisateur</h2>
+    {{ form_start(f) }}
+
+    <label for="Nom">Nom :</label>
+    {{ form_widget(f.Nom) }}
+    <div class="error-message">{{ form_errors(f.Nom) }}</div>
+
+    <label for="Prenom">Prénom :</label>
+    {{ form_widget(f.Prenom) }}
+    <div class="error-message">{{ form_errors(f.Prenom) }}</div>
+
+<label for="Date_de_naissance">Date de naissance :</label>
+{{ form_widget(f.Date_de_naissance, { 'type': 'datetimeinterface' }) }}
+<div class="error-message">{{ form_errors(f.Date_de_naissance) }}</div>
+
+
+
+    <label for="Genre">Genre :</label>
+    {{ form_widget(f.Genre) }}
+    <div class="error-message">{{ form_errors(f.Genre) }}</div>
+
+    <label for="Adresse">Adresse :</label>
+    {{ form_widget(f.Adresse) }}
+    <div class="error-message">{{ form_errors(f.Adresse) }}</div>
+
+    <label for="Num_de_telephone">Numéro de téléphone :</label>
+    {{ form_widget(f.Num_de_telephone) }}
+    <div class="error-message">{{ form_errors(f.Num_de_telephone) }}</div>
+
+    
+
+    <div class="input-box">
+                {{ form_row(f.email, {'attr': {'placeholder': 'Enter your email'}}) }}
+            </div>
+
+    <label for="password">Mot de passe :</label>
+    {{ form_widget(f.password) }}
+    <div class="error-message">{{ form_errors(f.password) }}</div>
+
+   
+
+    {{ form_end(f) }}
+</div>
+{% endblock %}
