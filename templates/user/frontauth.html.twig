@@ -93,15 +93,25 @@
                                     <span> <i class="mdi mdi-account"></i>    </span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
-                                   
-                                    <a href="./login" class="dropdown-item">
-                                        <i class="icon-envelope-open"></i>
-                                        <span class="ml-2">Sign in </span>
+                                    <a href="./profilef" class="dropdown-item">
+                                        <i class="icon-user"></i>
+                                       <span class="ml-2">
+    
+    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+        <div class="top_bar_item">
+            {% if is_granted('ROLE_USER') %}
+                <a href="{{ path('showf_user', {'id': app.user.id}) }}">Profile</a>
+             
+            {% endif %}
+       
+</span>
+
                                     </a>
-                                     <a href="./ajoutuserf" class="dropdown-item">
+                                    <a href="./logout" class="dropdown-item">
                                         <i class="icon-envelope-open"></i>
-                                        <span class="ml-2">Sign up</span>
+                                        <span class="ml-2">Logout</span>
                                     </a>
+                                    
                                 </div>
                     <!-- RD Navbar Search-->
                     <div class="rd-navbar-search">
@@ -128,62 +138,16 @@
                       </li>
                     </ul>
                   </div>
-                  <div class="rd-navbar-project-hamburger" data-multitoggle=".rd-navbar-main" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate>
-                    <div class="project-hamburger"><span class="project-hamburger-arrow-top"></span><span class="project-hamburger-arrow-center"></span><span class="project-hamburger-arrow-bottom"></span></div>
-                    <div class="project-hamburger-2"><span class="project-hamburger-arrow"></span><span class="project-hamburger-arrow"></span><span class="project-hamburger-arrow"></span>
-                    </div>
+                 
                     <div class="project-close"><span></span><span></span></div>
                   </div>
                 </div>
-                <div class="rd-navbar-project rd-navbar-modern-project">
-                  <div class="rd-navbar-project-modern-header">
-                    <h4 class="rd-navbar-project-modern-title">Get in Touch</h4>
-                    <div class="rd-navbar-project-hamburger" data-multitoggle=".rd-navbar-main" data-multitoggle-blur=".rd-navbar-wrap" data-multitoggle-isolate>
-                      <div class="project-close"><span></span><span></span></div>
-                    </div>
-                  </div>
-                  <div class="rd-navbar-project-content rd-navbar-modern-project-content">
-                    <div>
-                      <p>We are always ready to provide you with fresh organic products for your home or office. Contact us to find out how we can help you.</p>
-                      <div class="heading-6 subtitle">Our Contacts</div>
-                      <div class="row row-10 gutters-10">
-                        <div class="col-12"><img src="{{ asset('assetsf/images/logo.png')}}" alt="" width="394" height="255"/>
-                        </div>
-                      </div>
-                      <ul class="rd-navbar-modern-contacts">
-                        <li>
-                          <div class="unit unit-spacing-sm">
-                            <div class="unit-left"><span class="icon fa fa-phone"></span></div>
-                            <div class="unit-body"><a class="link-phone" href="tel:#">+1 323-913-4688</a></div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="unit unit-spacing-sm">
-                            <div class="unit-left"><span class="icon fa fa-location-arrow"></span></div>
-                            <div class="unit-body"><a class="link-location" href="#">4730 Crystal Springs Dr, Los Angeles, CA 90027</a></div>
-                          </div>
-                        </li>
-                        <li>
-                          <div class="unit unit-spacing-sm">
-                            <div class="unit-left"><span class="icon fa fa-envelope"></span></div>
-                            <div class="unit-body"><a class="link-email" href="mailto:#">mail@demolink.org</a></div>
-                          </div>
-                        </li>
-                      </ul>
-                      <ul class="list-inline rd-navbar-modern-list-social">
-                        <li><a class="icon fa fa-facebook" href="#"></a></li>
-                        <li><a class="icon fa fa-twitter" href="#"></a></li>
-                        <li><a class="icon fa fa-google-plus" href="#"></a></li>
-                        <li><a class="icon fa fa-instagram" href="#"></a></li>
-                        <li><a class="icon fa fa-pinterest" href="#"></a></li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </nav>
-        </div>
+                 
+                               
+                                
+                            </li>
+                  
+                   
       </header>
       <!-- Swiper-->
       <section class="section swiper-container swiper-slider swiper-slider-modern" data-loop="true" data-autoplay="5000" data-simulate-touch="true" data-nav="true" data-slide-effect="fade">
@@ -195,8 +159,8 @@
                   <div class="col-md-10 col-xxl-6">
                     <div class="slider-modern-box">
                       <h1 class="slider-modern-title"><span data-caption-animate="slideInDown" data-caption-delay="0">Check your calories</span></h1>
-                      <p data-caption-animate="fadeInRight" data-caption-delay="400">Herber provides local citizens and guests of our town with quality organic fruits, vegetables, and other products.</p>
-                      <div class="oh button-wrap"><a class="button button-primary button-ujarak" href="/ajoutuserf" data-caption-animate="slideInLeft" data-caption-delay="400">S'inscrire</a></div>
+                      
+                     
                     </div>
                   </div>
                 </div>
@@ -210,8 +174,7 @@
                   <div class="col-md-10 col-xxl-6">
                     <div class="slider-modern-box">
                       <h1 class="slider-modern-title"><span data-caption-animate="slideInLeft" data-caption-delay="0">Food and nutrition</span></h1>
-                      <p data-caption-animate="fadeInRight" data-caption-delay="400"> We guide you on the path to a healthier lifestyle, emphasizing the importance of balanced diets, mindful eating, and personalized nutritional choices. </p>
-                      <div class="oh button-wrap"><a class="button button-primary button-ujarak" href="/ajoutuserf" data-caption-animate="slideInLeft" data-caption-delay="400">S'inscrire</a></div>
+           
                     </div>
                   </div>
                 </div>
@@ -225,8 +188,7 @@
                   <div class="col-md-10 col-xxl-6">
                     <div class="slider-modern-box">
                       <h1 class="slider-modern-title"><span data-caption-animate="slideInLeft" data-caption-delay="0">Marketplace</span></h1>
-                      <p data-caption-animate="fadeInRight" data-caption-delay="400">We cont  the process of farming at Herber to deliver the best organic products to our customers throughout the state.</p>
-                      <div class="oh button-wrap"><a class="button button-primary button-ujarak" href="/ajoutuserf" data-caption-animate="slideInLeft" data-caption-delay="400">S'inscrire</a></div>
+                    
                     </div>
                   </div>
                 </div>
@@ -240,8 +202,7 @@
                   <div class="col-md-10 col-xxl-6">
                     <div class="slider-modern-box">
                       <h1 class="slider-modern-title"><span data-caption-animate="slideInDown" data-caption-delay="0">Activities</span></h1>
-                      <p data-caption-animate="fadeInRight" data-caption-delay="400">We specialize in offering a diverse range of engaging and purposeful experiences, catering to various interests and fitness levels.</p>
-                      <div class="oh button-wrap"><a class="button button-primary button-ujarak" href="/ajoutuserf" data-caption-animate="slideInUp" data-caption-delay="400"> S'inscrire</a></div>
+                      
                     </div>
                   </div>
                 </div>

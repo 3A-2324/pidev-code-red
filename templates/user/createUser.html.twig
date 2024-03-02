@@ -104,17 +104,15 @@
     {{ form_widget(f.Num_de_telephone) }}
     <div class="error-message">{{ form_errors(f.Num_de_telephone) }}</div>
 
-    <label for="role">Rôle :</label>
-    {{ form_widget(f.role) }}
-    <div class="error-message">{{ form_errors(f.role) }}</div>
+    
 
     <div class="input-box">
                 {{ form_row(f.email, {'attr': {'placeholder': 'Enter your email'}}) }}
             </div>
 
-    <label for="Mot_de_passe">Mot de passe :</label>
-    {{ form_widget(f.Mot_de_passe) }}
-    <div class="error-message">{{ form_errors(f.Mot_de_passe) }}</div>
+    <label for="password">Mot de passe :</label>
+    {{ form_widget(f.password) }}
+    <div class="error-message">{{ form_errors(f.password) }}</div>
 
    
 

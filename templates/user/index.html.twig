@@ -4,51 +4,60 @@
 
 {% block body %}
 <style>
-    /* Center the table on the page */
-    .table-container {
-       
-     max-width: 500px;
-    width: 90%; /* Réduire légèrement la largeur */
-    margin-left: 15%; /* Ajouter une marge à gauche pour dériver le tableau vers la gauche */
-    
-    }
-    
-    /* Style the table */
-    .table-container table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-    
-    /* Style table headers */
-    .table-container th {
-        background-color:  #B7E4C7; /* Set background color to green */
-        color: #000; /* Set text color to black */
-        border: 1px solid #ddd;
-        padding: 5px;
-        text-align: left;
-        
-    }
+ @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600);
+
+*, *:before, *:after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
    
-    /* Style table cells */
-    .table-container td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
-    
-    /* Style table rows */
-    .table-container tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-    
-    /* Style table rows on hover */
-    .table-container tr:hover {
-        background-color: #ddd;
-    }
+  background: #ffff;
+  font-family: 'Open Sans', sans-serif;
+}
+mytable {
+ margin-left:40 px;
+  background: #f4fff2;
+  border-radius: 0.25em;
+  border-collapse: collapse;
+
+}
+th {
+  border-bottom: 1px solid #364043;
+  color: #77c56c;;
+  font-size: 0.85em;
+  font-weight: 600;
+  padding: 0.5em 1em;
+  text-align: left;
+}
+td {
+  color: #000;
+  font-weight: 400;
+  padding: 0.65em 1em;
+}
+.disabled td {
+  color: #4F5F64;
+}
+tbody tr {
+  transition: background 0.25s ease;
+}
+tbody tr:hover {
+  background: #ffff;
+}
+
 </style>
 
+                       
+                 <div class="container my-2">
+                                        <input class="form-control" onkeyup="myFunction()" type="search" placeholder="Nom " id="myInput"aria-label="Search">
+ <a href="{{path('TrierParDateDESC') }} " class="btn btn-success "  href="https://startbootstrap.com/theme/sb-admin-pro"><i class="align-middle" ></i>Nom \/</a>
+         <button>   <a href="{{ path("PDF")}}" class="btn btn-success " >Imprimer</a> </button>
+         </div> 
 <div class="table-container">
-    <table>
+
+    <table id="mytable" style =" margin-left: 100px; ">
         <thead>
             <tr>
                 <th>Nom</th>
@@ -57,11 +66,14 @@
                 <th>Genre</th>
                 <th>Adresse</th>
                 <th>Numéro de téléphone</th>
-                <th>Role</th>
-                <th>E-mail</th>
-                <th>Mot de passe</th>
+                <th>Role</th>                
+                <th>Status</th>
+                <th>E-mail</th> 
                 <th>Supprimer</th>
                 <th>Modifier</th>
+                <th>Voir profile</th>
+                <th>Désactivé</th>
+                <th>Activer</th>
             </tr>
         </thead>
         <tbody>
@@ -73,18 +85,55 @@
                     <td>{{ user.Genre }}</td>
                     <td>{{ user.Adresse }}</td>
                     <td>{{ user.Numdetelephone }}</td>
-                    <td>{{ user.Role }}</td>
+                    <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                    <td>{{ user.Status }}</td>
                     <td>{{ user.Email }}</td>
-                    <td>{{ user.Motdepasse }}</td>
                     <td>
                         <a href="{{ path('supp_user', {'id': user.id}) }}">Supprimer</a>
                     </td>
                     <td>
                         <a href="{{ path('modif_user', {'id': user.id}) }}">Modifier</a>
                     </td>
+                      
+                     <td>
+                        <a href="{{ path('show_user', {'id': user.id}) }}">Voir profile</a>
+                    </td>         
+                     <td>
+                        <a href="{{ path('block', {'id': user.id}) }}">Désactiver</a>
+
+                    </td>         
+                    <td>
+                        <a href="{{ path('act', {'id': user.id}) }}">Activer</a>
+                    </td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
 </div>
+<script>
+         id="mytable"
+         function myFunction() {
+var input, filter, table, tr, td, i,j, txtValue;
+input = document.getElementById("myInput");
+filter = input.value.toUpperCase();
+table = document.getElementById("mytable");
+tr = table.getElementsByTagName("tr");
+//   alert(td.length);
+             for (i = 0; i < tr.length; i++) {
+                 td= tr[i].getElementsByTagName("td")[1];
+                 if (td) {
+                     txtValue = td.textContent || td.innerText;
+                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                         tr[i].style.display = "";
+                     } else {
+                         tr[i].style.display = "none";
+                     }
+                 }
+
+}
+
+}
+
+
+</script>
 {% endblock %}

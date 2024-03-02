@@ -1,0 +1,98 @@
+{% extends 'Basef.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+<style>
+    h2 {
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    .table-bordered {
+        border: 1px solid #ddd !important;
+    }
+
+    table caption {
+        padding: .5em 0;
+    }
+
+    @media screen and (max-width: 767px) {
+        table caption {
+            display: none;
+        }
+    }
+
+    .p {
+        text-align: center;
+        padding-top: 140px;
+        font-size: 14px;
+    }
+
+</style>
+<h2>Your Profil</h2>
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="table-responsive" data-pattern="priority-columns">
+                <table summary="This table shows how to create responsive tables using RWD-Table-Patterns' functionality"
+                    class="table table-bordered table-hover">
+
+                    <thead>
+                        <tr>
+
+
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <th>Id</th>
+                                        <td>{{ user.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Prenom</th>
+                                        <td>{{ user.Prenom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <td>{{ user.Nom }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Date de naissance</th>
+                                        <td>{{ user.Datedenaissance|date('Y-m-d') }}</td>
+                                    </tr>
+
+                                    <tr>
+                                        <th>Genre</th>
+                                        <td>{{ user.Genre }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Adresse</th>
+                                        <td>{{ user.Adresse }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Numéro de téléphone</th>
+                                        <td>{{ user.Numdetelephone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Role</th>
+                                        <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>{{ user.Email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Mot de passe</th>
+                                        <td>{{ user.password }}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                            <div style="text-align: center; padding-top: 20px;">
+                                <a class="btn btn-primary" href="{{ path('display_user') }}" role="button">Retourner à la liste</a>
+                                <a class="btn btn-warning" href="{{ path('modif_userf', {'id': user.id}) }}" role="button">Modifier</a>
+                                <a class="btn btn-danger" href="{{ path('supp_user', {'id': user.id}) }}" role="button">Supprimer</a>
+                            </div>
+                            {% endblock %}

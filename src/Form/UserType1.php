@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 
-class UserType extends AbstractType
+class UserType1 extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -60,16 +60,8 @@ class UserType extends AbstractType
                 ]
             ])
                 
-           
-            ->add('password', PasswordType::class, [
-                'label' => 'password',
-                'required' => true,
-                'attr' => [
-                    'placeholder' => ' password ' // Texte à afficher en arrière-plan
-                ]
-            ])
             ->add('Valider', SubmitType::class)
-        ;
+         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
