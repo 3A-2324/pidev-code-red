@@ -15,13 +15,14 @@ class SuiviObjectif
     #[ORM\Column]
     private ?int $id = null;
 
-   
+
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Objectif $id_objectif = null;
+    private ?Objectif $objectif = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\GreaterThanOrEqual("today", message: 'La date de début doit être dans le futur ou pr.')]
     private ?\DateTimeInterface $date_suivi = null;
 
     #[ORM\Column]
@@ -39,15 +40,15 @@ class SuiviObjectif
     {
         return $this->id;
     }
-  
+
     public function getIdObjectif(): ?Objectif
     {
-        return $this->id_objectif;
+        return $this->objectif;
     }
 
-    public function setIdObjectif(?Objectif $id_objectif): static
+    public function setIdObjectif(?Objectif $objectif): static
     {
-        $this->id_objectif = $id_objectif;
+        $this->objectif = $objectif;
 
         return $this;
     }

@@ -1,0 +1,44 @@
+{% extends 'basef.html.twig' %}
+
+{% block title %}Journal {{ journal.id }}{% endblock %}
+
+{% block body %}
+<br>
+<div class="container">
+    <h4 class="mb-4">Journal Details</h4>
+    
+    <p><strong>Date:</strong> {{ journal.date ? journal.date|date('Y-m-d') : '' }}</p>
+    
+    <p><strong>Calories Journal:</strong> {{ journal.calories_journal }}</p>
+
+    <h4 class="mb-3">Associated Recettes:</h4>
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>image</th>
+                            <th>Name</th>
+                            <th>Calories</th>
+                            <th>action</th>
+                            <!-- Include other table headers for additional properties of recette as needed -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for recette in journal.recettes %}
+                        <tr>
+                            <td><img style="width:50px;height:50px;" src="{{ asset('img/' ~ recette.Image) }}"</td>
+                            <td>{{ recette.nom }}</td>
+                            <td>{{ recette.calorieRecette }}</td>
+                            <td><a href="{{ path('app_recette_showfront', {'id': recette.id}) }}" class="btn btn-primary">Show</a></td>
+                            <!-- Include other table cells for additional properties of recette as needed -->
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

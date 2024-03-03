@@ -1,0 +1,13 @@
+{% extends 'basef.html.twig' %}
+
+{% block title %}Edit Commande{% endblock %}
+
+{% block body %}
+    <h1>Edit Commande</h1>
+
+    {{ include('commande/_formf.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_commande_indexf') }}">back to list</a>
+
+    {{ include('commande/_delete_formf.html.twig') }}
+{% endblock %}

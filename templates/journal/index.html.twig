@@ -1,0 +1,56 @@
+{% extends 'basef.html.twig' %}
+
+{% block title %}Journal index{% endblock %}
+
+
+{% block body %}
+
+<div class="actions">
+        <a href="{{ path('app_journal_new') }}" class="btn btn-success">Create new</a>
+    </div>
+<style>
+        #calendrier{
+            width: 60%;
+            margin: auto;
+        }
+
+    </style>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js" integrity="sha256-i4vDW9EgtaJmeauDDymtNF2omPZ1fCKpf4w1gBlU1IE=" crossorigin="anonymous"></script>
+
+<div id= "calendrier">
+</div>
+<a href="{{ path('generate_weekly_ingredient_pdf') }}" class="btn btn-success">liste course</a>
+<script>
+    window.onload = () => {
+        let calendarElt = document.querySelector("#calendrier")
+
+        let calendar = new FullCalendar.Calendar(calendarElt, {
+            initialView: 'dayGridMonth',
+            events: {{ data|raw }},
+            editable: true,
+            eventResizableFromStart: true,
+            eventClick: function(info) {
+                // Redirect to the show route of the clicked event
+                window.location.href = "{{ path('app_journal_show', {'id': 'event_id'})|raw }}".replace('event_id', info.event.id);
+            },
+            eventMouseEnter: function(info) {
+                info.el.style.backgroundColor = '#f0f0f0'; // Change background color on hover
+            },
+            eventMouseLeave: function(info) {
+                info.el.style.backgroundColor = '#106040'; // Reset background color when mouse leaves
+            }
+        });
+        calendar.render();
+
+        
+         const headerButtons = document.querySelectorAll('.fc-header-toolbar button');
+        headerButtons.forEach(button => {
+            button.style.backgroundColor = '#34ab7c'; // Change to your desired color
+            button.style.borderColor = '#34ab7c';
+            button.style.color = '#fff'; // Change text color if necessary
+        });
+    }
+</script>
+
+
+{% endblock %}

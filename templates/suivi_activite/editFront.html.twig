@@ -1,0 +1,16 @@
+{% extends 'basef.html.twig'%}
+
+{% block title %}Edit Suivi Activite{% endblock %}
+
+{% block body %}
+
+
+        <h1>Edit SuiviActivité</h1>
+
+        {{ include('suivi_activite/_form.html.twig', {'button_label': 'Update'}) }}
+
+        <a href="{{ path('app_suivi_activit__index_front') }}">back to list</a>
+
+        {{ include('suivi_activite/_delete_form.html.twig') }}
+
+{% endblock %}

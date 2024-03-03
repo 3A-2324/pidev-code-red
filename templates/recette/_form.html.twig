@@ -1,0 +1,44 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+<div class="card p-3" style="margin-left: -100px;">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.Nom) }}
+                {{ form_widget(form.Nom, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.Nom) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.Categorie) }}
+                {{ form_widget(form.Categorie, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.Categorie) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.image) }}
+                {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.image) }}
+            </div>
+            <div class="form-group">
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 6}}) }}
+                {{ form_errors(form.description) }}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                {{ form_label(form.calorie_recette) }}
+                {{ form_widget(form.calorie_recette, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.calorie_recette) }}
+            </div>
+             <div class="form-group">
+                {{ form_label(form.Ingredients) }}
+                {{ form_widget(form.Ingredients, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.Ingredients) }}
+            </div>
+            
+        </div>
+        </div>
+        <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+    </div>
+    
+</div>
+{{ form_end(form) }}

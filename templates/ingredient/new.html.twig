@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Ingredient
+{% endblock %}
+
+{% block body %}
+<style>
+	.centered-div {
+		width: 50%; /* Set the width of the div */
+		margin: 0 auto; /* Set the top and bottom margin to 0, and the left and right margin to auto */
+	}
+</style>
+<div class="centered-div">
+		<h1>Create new Ingredient</h1>
+
+		{{ include('ingredient/_form.html.twig') }}
+
+</div>
+{% endblock %}

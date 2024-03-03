@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Utilisateurs {% endblock %}
+
+{% block body %}
+<style>
+  /* Custom styles for the table */
+        .custom-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border: 1px solid #ddd; /* Adding borders */
+        }
+
+        .custom-table thead th {
+            background-color: #6fbf73; /* Shade of green */
+            color: #fff; /* White text color */
+        }
+
+        .custom-table tbody tr:hover {
+            background-color: #f3f4f6;
+        }
+    </style>
+
+
+
+                       
+                 <div class="container my-2">
+                     <input class="form-control" onkeyup="myFunction()" type="search" placeholder="Prénom " id="myInput"aria-label="Search">
+ <a href="{{path('TrierParDateDESC') }} " class="btn btn-success btn-sm"  href="https://startbootstrap.com/theme/sb-admin-pro"><i class="align-middle" ></i>trier par prénom</a>
+         <button>   <a href="{{ path("PDF")}}">PDF</a> </button>
+         </div> 
+<div class="card mt-3">
+<div class="card-body">
+
+    <table class="table custom-table">
+   
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prénom</th>
+                <th>Date de naissance</th>
+                <th>Genre</th>
+                <th>Adresse</th>
+                <th>Numéro de téléphone</th>
+                <th>Role</th>                
+                <th>Status</th>
+                <th>E-mail</th> 
+                <th>Supprimer</th>
+                <th>Modifier</th>
+                <th>Voir profile</th>
+                <th>Désactivé</th>
+                <th>Activer</th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+            {% for user in u %}
+                <tr>
+                    <td>{{ user.Nom }}</td>
+                    <td>{{ user.Prenom }}</td>
+                    <td>{{ user.Datedenaissance|date('Y-m-d') }}</td> {# Formatage de la date #}
+                    <td>{{ user.Genre }}</td>
+                    <td>{{ user.Adresse }}</td>
+                    <td>{{ user.Numdetelephone }}</td>
+                    <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                    <td>{{ user.Status }}</td>
+                    <td>{{ user.Email }}</td>
+                    <td>
+                        <a href="{{ path('supp_user', {'id': user.id}) }}">Supprimer</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('modif_user', {'id': user.id}) }}">Modifier</a>
+                    </td>
+                      
+                     <td>
+                        <a href="{{ path('show_user', {'id': user.id}) }}">Voir profile</a>
+                    </td>         
+                     <td>
+                        <a href="{{ path('block', {'id': user.id}) }}">Désactiver</a>
+
+                    </td>         
+                    <td>
+                        <a href="{{ path('act', {'id': user.id}) }}">Activer</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+</div>
+</div>
+
+<script>
+         id="mytable"
+         function myFunction() {
+var input, filter, table, tr, td, i,j, txtValue;
+input = document.getElementById("myInput");
+filter = input.value.toUpperCase();
+table = document.getElementById("mytable");
+tr = table.getElementsByTagName("tr");
+//   alert(td.length);
+             for (i = 0; i < tr.length; i++) {
+                 td= tr[i].getElementsByTagName("td")[1];
+                 if (td) {
+                     txtValue = td.textContent || td.innerText;
+                     if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                         tr[i].style.display = "";
+                     } else {
+                         tr[i].style.display = "none";
+                     }
+                 }
+
+}
+
+}
+
+
+</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+{% endblock %}

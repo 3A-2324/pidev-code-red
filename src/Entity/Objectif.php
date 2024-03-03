@@ -6,8 +6,8 @@ use App\Repository\ObjectifRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
-use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ObjectifRepository::class)]
 class Objectif
@@ -32,9 +32,9 @@ class Objectif
         pattern: '/^\d+$/',
         message: 'Le contenu doit contenir uniquement des chiffres'
     )]
-    
+
     private ?int $height = null;
-    
+
 
     #[ORM\Column]
     #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
@@ -51,7 +51,7 @@ class Objectif
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
     private ?string $choix = null;
-     
+
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $datee = null;
@@ -60,7 +60,21 @@ class Objectif
     #[ORM\Column]
     private ?int $calorie = null;
 
-   
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): void
+    {
+        $this->user = $user;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -162,5 +176,4 @@ class Objectif
         return $this;
     }
 
-   
 }

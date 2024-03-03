@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Commande index
+{% endblock %}
+
+{% block body %}
+<style>
+    .centered-div {
+        width: 50%; /* Set the width of the div */
+        margin: 0 auto; /* Set the top and bottom margin to 0, and the left and right margin to auto */
+    }
+</style>
+<div class="centered-div">
+	<h1>Commande index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Client</th>
+				<th>Date_cmd</th>
+				<th>Etat_cmd</th>
+				<th>Qte_commande</th>
+				<th>Total</th>
+				<th>Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+		
+			{% for commande in commandes %}
+            <tr>
+                <td>{{ commande.id }}</td>
+                <td>{% if commande.user is not null %}
+                        {{ commande.user.Nom }}
+                    {% else %}
+                        Utilisateur non défini
+                    {% endif %}</td>
+                <td>{{ commande.dateCmd ? commande.dateCmd|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ commande.etatCmd }}</td>
+                <td>{{ commande.qteCommande }}</td>
+                <td>{{ commande.total }}</td>
+                <td>
+                    <a href="{{ path('app_commande_show', {'id': commande.id}) }}">show</a>
+                    <a href="{{ path('app_commande_edit', {'id': commande.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+		</tbody>
+	</table>
+</div>
+{% endblock %}

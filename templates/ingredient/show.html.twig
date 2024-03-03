@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ingredient
+{% endblock %}
+
+{% block body %}
+<style>
+	.centered-div {
+		width: 50%; /* Set the width of the div */
+		margin: 0 auto; /* Set the top and bottom margin to 0, and the left and right margin to auto */
+	}
+</style>
+<div class="centered-div">
+	<h1>Ingredient</h1>
+
+	<table class="table">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ ingredient.id }}</td>
+			</tr>
+			<tr>
+				<th>Nom</th>
+				<td>{{ ingredient.Nom }}</td>
+			</tr>
+			<tr>
+				<th>Image</th>
+				<td><img class="img-fluid rounded" src="{{ asset('img/' ~ ingredient.image) }}" style="width: 336px; height: 336px; object-fit: cover;"></td>
+			</tr>
+		</tbody>
+	</table>
+
+	<a href="{{ path('app_ingredient_index') }}">back to list</a>
+
+	<a href="{{ path('app_ingredient_edit', {'id': ingredient.id}) }}">edit</a>
+
+	{{ include('ingredient/_delete_form.html.twig') }}
+</div>
+{% endblock %}

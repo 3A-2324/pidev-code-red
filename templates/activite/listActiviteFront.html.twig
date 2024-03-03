@@ -1,0 +1,55 @@
+{% extends 'basef.html.twig'%}
+{% block title %}Liste des Activités{% endblock %}
+{% block body %}
+<h1>Liste des Actvités</h1>
+    <input id="myInput" type="search"placeholder="Rechercher" class="rd-navbar-search-form-input form-input">
+    <table id ="t" class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                
+                <th>Type</th>
+                <th>Nom</th>
+                <th>Description</th>
+                <th>NbrCal</th>
+                <th>Image</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody id="myTable">
+        {% for activite in activites %}
+            <tr>
+                <td>{{ activite.id }}</td>
+                
+                <td>{{ activite.type }}</td>
+                <td>{{ activite.nom }}</td>
+                <td>{{ activite.description }}</td>
+                <td>{{ activite.nbrCal }}</td>
+                <td><img src="{{ asset('/img/' ~ activite.image) }}" style="width: 50px"height="50px"></td>
+                <td>
+                    <a href="{{ path('app_activite_add_suivi', {'id': activite.id}) }}">Add Suivi</a>
+              
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+    <br><br><br><br><br><br><br><br>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+{% endblock %}

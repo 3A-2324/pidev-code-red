@@ -1,0 +1,186 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+    .button-container {
+        margin-top: 100px; /* Adjust margin as needed */
+        margin-left: 400px; /* Adjust margin as needed */
+    }
+
+    .buttonA {
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .buttonA:hover {
+        background-color: #0056b3;
+    }
+
+     footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: #f4f4f4; /* Change the background color as needed */
+    color: #fff; /* Change the text color as needed */
+    text-align: center;
+    padding: 10px 0; /* Adjust padding as needed */
+}
+
+    table {
+        width: 50%;
+        margin-top: 20px; /* Adjust margin as needed */
+        margin-left: 400px; /* Adjust margin as needed */
+        border-collapse: collapse;
+        background-color: white;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    th, td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+
+    tr:hover {
+        background-color: #f9f9f9;
+    }
+
+    button.delete, button.edit {
+        padding: 8px 12px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        text-decoration: none;
+        color: white;
+    }
+
+    button.delete {
+        background-color: #f44336;
+    }
+
+    button.edit {
+        background-color: #2196F3;
+    }
+
+    button.delete:hover {
+        background-color: #d32f2f;
+    }
+
+    button.edit:hover {
+        background-color: #1976D2;
+    }
+
+    caption {
+        font-size: 1.5em;
+        margin-bottom: 10px;
+    }
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination a {
+        color: #007bff;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color 0.3s;
+        border: 1px solid #007bff;
+        border-radius: 4px;
+        margin: 0 4px;
+    }
+
+    .pagination a.active {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #f2f2f2;
+    }
+</style>
+<style>
+    .centered-div {
+        width: 50%; /* Set the width of the div */
+        margin: 0 auto; /* Set the top and bottom margin to 0, and the left and right margin to auto */
+    }
+</style>
+
+
+<br>
+<br>
+<br>
+<div class="centered-div">
+    <input id="myInput" type="search" placeholder="Rechercher" >
+</div>
+<table>
+
+
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Sexe</th>
+            <th>Age</th>
+            <th>Height</th>
+            <th>Weight</th>
+            <th>Activity Level</th>
+            <th>Choix</th>
+            <th>Calorie</th>
+            <th>User</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody id="myTable">
+        {% for a in list %}
+        <tr>
+            <td>{{ a.id }}</td>
+            <td>{{ a.sexe }}</td>
+            <td>{{ a.age }}</td>
+            <td>{{ a.height }}</td>
+            <td>{{ a.weight }}</td>
+            <td>{{ a.activityLevel }}</td>
+            <td>{{ a.choix }}</td>
+            <td>{{ a.calorie }}</td>
+            <td>{{ a.user.Nom }}</td>
+            <td>
+                <button class="delete">
+                    <a href="{{ path('supprimerObjectif', {'id': a.id}) }}">Supprimer</a>
+                </button>
+                <button class="edit">
+                    <a href="{{ path('modifierObjectif', {'id': a.id}) }}">Modifier</a>
+                </button>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="pagination">
+    {{ knp_pagination_render(list) }}
+</div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#myInput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#myTable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,242 @@
+{% extends 'basef.html.twig' %}
+
+{% block body %}
+
+
+
+
+<h1>suggest index</h1>
+
+<section>
+    <div class="row">
+        {% for recipe in suggested_recipes %}
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="card">
+                    <div class="cover item-a" style="background-image: url('{{ asset('img/' ~ recipe.image) }}')">
+                        <h1>{{ recipe.Nom }}</h1>
+                        <span class="price">{{ recipe.calorieRecette }}</span>
+                        <div class="card-back">
+                            <p>{{ recipe.description }}</p>
+                            <div class="actions">
+                                <a href="{{ path('app_recette_showfront', {'id': recipe.id}) }}" class="btn btn-primary">Show</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <td></td>
+        {% endfor %}
+    </div>
+
+</section>
+
+<br>
+<br>
+<br>
+<h1>recette index</h1>
+
+
+<section id="recipeSection">
+    <div class="card-body">
+        <select id="filter-ing" name="filter-ing" class="empty">
+        	<option value="0">Filtrer par Ingredient</option>
+			{% for ingredient in ingredients %}
+            <option value="{{ ingredient.id }}">{{ ingredient.Nom }}</option>
+			{% endfor %}
+        </select>
+    </div>
+	<input id="search-input" type="search" placeholder="Rechercher" class="rd-navbar-search-form-input form-input">
+
+	<div class="row">
+	
+        {% for recette in recettes %}
+            <div class="col-md-4 col-sm-6 col-xs-12">
+                <div class="card recette-info" data-id="{{ recette.id }}" data-nom="{{ recette.Nom }}" data-calorie="{{ recette.calorieRecette }}" data-description="{{ recette.description }}">
+					<div class="cover item-a" style="background-image: url('{{ asset('img/' ~ recette.image) }}')">
+						<h1 >{{ recette.Nom }}</h1>
+						<span class="price">{{ recette.calorieRecette }}</span>
+						<div class="card-back">
+							<p>{{ recette.description }}</p>
+							<div class="actions">
+								<a href="{{ path('app_recette_showfront', {'id': recette.id}) }}" class="btn btn-primary">Show</a>
+							</div>
+						</div>
+					</div>
+				</div>
+
+            </div>
+            <td></td>
+        {% endfor %}
+		
+    </div>
+</section>
+<div class="card-footer">
+			<br>
+			<div class="pagination">
+				{% do recettes.setPageRange(6) %}
+				{{knp_pagination_render(recettes, 'pagination.html.twig')}}
+			</div>
+		</div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$("#search-input").on("keyup", function() {
+				var value = $(this).val().toLowerCase();
+				$(".card").filter(function() {
+					$(this).toggle(
+							$(this).find('.card-title').text().toLowerCase().indexOf(value) > -1 ||
+							$(this).find('.card-text').text().toLowerCase().indexOf(value) > -1 ||
+							$(this).find('.price').text().toLowerCase().indexOf(value) > -1
+					);
+				});
+			});
+		});
+	</script>
+	<style>
+		@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;600 &display=swap');
+
+		$transition-time: 2.3s;
+
+		body {
+			font-family: 'Oswald', sans-serif;
+			background-color: #212121;
+		}
+
+
+		section {
+			width: 90%;
+			max-width: 900px;
+			margin: 0 auto;
+		}
+		.row {
+			display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+		}
+
+		.card {
+			position: relative;
+			height: 300px;
+			width: 90%;
+			margin: 10px 0;
+			transition: ease all $transition-time;
+			perspective: 1200px;
+		}
+
+		.card:hover .cover {
+			transform: rotateX(0deg) rotateY(-180deg);
+		}
+
+		.cover {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			transform-style: preserve-3d;
+			transition: ease all $transition-time;
+			background-size: cover;
+			background-position: center center;
+			background-repeat: no-repeat;
+		}
+
+		.cover:before {
+			content: '';
+			position: absolute;
+			border: 5px solid rgba(255, 255, 255, 0.5);
+			box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+			top: 20px;
+			left: 20px;
+			right: 20px;
+			bottom: 20px;
+			z-index: 2;
+			transition: ease all $transition-time;
+			transform-style: preserve-3d;
+			transform: translateZ(0px);
+		}
+
+		.cover:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			z-index: 2;
+			transition: ease all 1.3s;
+			background: rgba(0, 0, 0, 0.4);
+		}
+
+		.cover h1 {
+			font-weight: 600;
+			position: absolute;
+			bottom: 55px;
+			left: 50px;
+			color: white;
+			transform-style: preserve-3d;
+			transition: ease all $transition-time;
+			z-index: 3;
+			font-size: 3em;
+			transform: translateZ(0px);
+		}
+
+		.cover .price {
+			font-weight: 200;
+			position: absolute;
+			top: 55px;
+			right: 50px;
+			color: white;
+			transform-style: preserve-3d;
+			transition: ease all $transition-time;
+			z-index: 4;
+			font-size: 2em;
+			transform: translateZ(0px);
+		}
+
+		.card-back {
+			position: absolute;
+			height: 100%;
+			width: 100%;
+			background: #0b0f08;
+			transition: ease all $transition-time;
+			transform: translateZ(-1px) rotatey(-180deg);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			backface-visibility: hidden; /* This prevents flipping of content */
+		}
+
+				.card-back p {
+			font-weight: 200;
+			font-size: 0.9em; /* Reduce font size */
+			color: white;
+			padding: 8px 20px; /* Adjust padding */
+			text-align: center;
+			max-width: 15ch; /* Set maximum width */
+			word-wrap: break-word; /* Allow words to break and wrap */
+		}
+		h1, .heading-1 {
+  			font-size: 20px;
+ 			 line-height: 0.88;
+  			letter-spacing: .075em;
+	}
+
+	.bg-transparent {
+  background-color: transparent !important;
+}
+
+.btn-transparent {
+  background-color: transparent !important;
+  border-color: transparent !important;
+  color: inherit !important;
+}
+
+	</style>
+
+
+	
+
+
+{% endblock %}

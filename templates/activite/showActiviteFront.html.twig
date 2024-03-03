@@ -1,0 +1,44 @@
+{% extends 'basef.html.twig'%}
+
+
+{% block title %}Activite{% endblock %}
+
+{% block body %}
+    <h1>Activite</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ activite.id }}</td>
+            </tr>
+            
+            <tr>
+                <th>Type</th>
+                <td>{{ activite.type }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ activite.nom }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ activite.description }}</td>
+            </tr>
+             <tr>
+                <th>NbrCal</th>
+                <td>{{ activite.nbrCal }}</td>
+            </tr>
+             <tr>
+                <th>Image</th>
+                <td><img src="{{ asset('/Uploaded_images/' ~ activite.image) }}" style="width: 300px"height="300px"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <a href="{{ path('app_activite_list') }}">back to list</a>
+            <br><br><br><br><br><br><br><br>
+
+
+{% endblock %}

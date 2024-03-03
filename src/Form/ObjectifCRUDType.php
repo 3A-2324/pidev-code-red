@@ -3,10 +3,11 @@
 namespace App\Form;
 
 use App\Entity\Objectif;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ObjectifCRUDType extends AbstractType
 {
@@ -17,11 +18,11 @@ class ObjectifCRUDType extends AbstractType
             ->add('age')
             ->add('height')
             ->add('weight')
-            ->add('activity_level')
+            ->add('activityLevel')
             ->add('choix')
+            ->add('datee')
+            ->add('calorie')
             ->add('save',SubmitType::class)
-            
-            
         ;
     }
 

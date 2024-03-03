@@ -1,0 +1,53 @@
+{% extends 'basef.html.twig' %}
+
+{% block title %}
+    Commande
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Commande</h1>
+
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Id</th>
+                    <td>{{ commande.id }}</td>
+                </tr>
+                <tr>
+                    <th>Client</th>
+                    <td>{% if commande.user is not null %}
+                        {{ commande.user.Nom }}
+                    {% else %}
+                        Utilisateur non défini
+                    {% endif %}</td>
+                </tr>
+                <tr>
+                    <th>Date_cmd</th>
+                    <td>{{ "now"|date('Y-m-d H:i:s') }}</td>
+                </tr>
+                <tr>
+                    <th>Etat_cmd</th>
+                    <td>{{ commande.etatCmd }}</td>
+                </tr>
+                <tr>
+                    <th>Qte_commande</th>
+                    <td>{{ commande.qteCommande }}</td>
+                </tr>
+                <tr>
+                    <th>Total</th>
+                    <td>{{ commande.total }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_commande_indexf') }}" class="btn btn-secondary">Retour à la liste</a>
+
+        <a href="{{ path('app_commande_editf', {'id': commande.id}) }}" class="btn btn-primary">Éditer</a>
+
+        {{ include('commande/_delete_form.html.twig') }}
+    </div>
+{% endblock %}
+
+
+

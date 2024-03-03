@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Produit
+{% endblock %}
+
+{% block body %}
+<style>
+	.centered-div {
+		width: 50%; /* Set the width of the div */
+		margin: 0 auto; /* Set the top and bottom margin to 0, and the left and right margin to auto */
+	}
+</style>
+<div class="centered-div">
+	<br><br><br><br><br><br><br><br><br><br>
+	<h1>Create new Produit</h1>
+
+	{{ include('produit/_form.html.twig') }}
+
+	<a href="{{ path('app_produit_index') }}">back to list</a>
+</div>
+{% endblock %}

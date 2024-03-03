@@ -1,0 +1,46 @@
+{% extends 'baseF.html.twig'%}
+
+
+{% block title %}Suivi Activite index{% endblock %}
+
+{% block body %}
+
+        <h1>SuiviActivité index</h1>
+    <br><br>
+    <a href="{{ path('app_activite_list') }}">Voir Liste des Activités</a>
+    <br><br>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Date</th>
+                <th>Rep</th>
+                <th>User</th>
+                <th>Activite</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for suivi_activit_ in suivi_activit_s %}
+                <tr>
+                    <td>{{ suivi_activit_.id }}</td>
+                    <td>{{ suivi_activit_.date ? suivi_activit_.date|date('Y-m-d') : '' }}</td>
+                    <td>{{ suivi_activit_.rep }}</td>
+                    <td>{{ suivi_activit_.user.Nom }}</td>
+                    <td>{{ suivi_activit_.activite.nom }}</td>
+                    <td>
+                        <a href="{{ path('app_suivi_activit__show_front', {'id': suivi_activit_.id}) }}">show</a>
+                        <a href="{{ path('app_suivi_activit__edit_front', {'id': suivi_activit_.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_suivi_activit__new_front') }}">Create new</a>
+
+{% endblock %}

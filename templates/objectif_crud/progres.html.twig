@@ -1,0 +1,43 @@
+{% extends 'basef.html.twig' %}
+
+{% block body %}
+
+    <head>
+        <title>Graphique de progression du poids</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    </head>
+    <body>
+    <div style="display: flex; justify-content: center;">
+        <canvas id="myChart" width="400" height="400"></canvas>
+
+        <script>
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: {{ dates|raw }},
+                    datasets: [{
+                        label: 'Poids',
+                        data: {{ weights|raw }},
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: false, // Désactiver la réactivité
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+
+        </script>
+    </div>
+    </body>
+
+{% endblock %}
+
