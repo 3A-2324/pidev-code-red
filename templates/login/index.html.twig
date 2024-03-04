@@ -1,0 +1,142 @@
+{% extends 'HomePageS.html.twig' %}
+
+{% block Body %}
+    <br>
+    <br>
+    <br>
+
+    <div class="card-container">
+        <div class="card">
+            <div class="card-body">
+            <h4 style="font-weight: bold;"> Se Connecter </h4>
+            <br>
+    <br>
+
+                {% if error %}
+                    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                <form action="{{ path('app_login') }}" method="post">
+                    <label for="username">Email</label>
+                    <input type="text" id="username" name="_username" value="{{ last_username }}">
+                    <br>
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="_password">
+
+                    {# If you want to control the URL the user is redirected to on success
+                    <input type="hidden" name="_target_path" value="/account"> #}
+                    <br>
+                    <br>
+                    <button type="submit">Login</button>
+                </form>
+                
+                    
+                    <a href={{ path('ajouterf_user')}}>Mot de passe oublié ?</a>
+                    <a href={{ path('ajouterf_user')}}>S'inscrire</a>
+                
+            </div>
+        </div>
+    </div>
+
+    <br>
+    <br>
+    <br>
+
+
+        <style>
+       boby{
+        font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.login-container {
+    width: 350px;
+    padding: 30px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    
+    color: #555;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    width: 70%;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+.forgot-password {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.forgot-password a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.forgot-password a:hover {
+    text-decoration: underline;
+}
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.card {
+    width: 500px;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    padding: 30px;
+}
+        </style>
+    {% endblock %}
+
+
+
+
+
+
+

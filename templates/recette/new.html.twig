@@ -1,11 +1,21 @@
-{% extends './templates_back/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}New Recette{% endblock %}
 
 {% block body %}
-    <h1>Create new Recette</h1>
+    <style>
+        .centered-div {
+            width: 50%; /* Set the width of the div */
+            margin-left: 30%; /* Set the top and bottom margin to 0, and the left and right margin to auto */
+        }
+    </style>
+    <br>
+    <div class="centered-div">
+        <h1>Create new Recette</h1>
+<br>
+        {{ include('recette/_form.html.twig') }}
 
-    {{ include('recette/_form.html.twig') }}
+        <a href="{{ path('app_recette_index') }}">back to list</a>
+    </div>
 
-    <a href="{{ path('app_recette_index') }}">back to list</a>
 {% endblock %}

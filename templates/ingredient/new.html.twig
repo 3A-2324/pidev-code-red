@@ -1,12 +1,20 @@
-{% extends './templates_back/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}New Ingredient
 {% endblock %}
 
 {% block body %}
+<style>
+	.centered-div {
+		width: 50%; /* Set the width of the div */
+        margin-left: 60%; /* Set the top and bottom margin to 0, the right margin to auto, and the left margin to 50% */
+        transform: translateX(-50%);
+	}
+</style>
+<br>
+<div class="centered-div">
 		<h1>Create new Ingredient</h1>
-
 		{{ include('ingredient/_form.html.twig') }}
 
-		
+</div>
 {% endblock %}

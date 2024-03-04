@@ -1,10 +1,18 @@
-{% extends './templates_back/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Ingredient index{% endblock %}
 
 {% block body %}
-    <h1>Recette index</h1>
-
+<style>
+    .centered-div {
+        width: 70%; /* Set the width of the div */
+        margin-left: 20%; /* Set the top and bottom margin to 0, and the left and right margin to auto */
+    }
+</style>
+<br>
+<div class="centered-div">
+    <h1>Ingredient index</h1>
+<br>
     <div class="actions">
         <a href="{{ path('app_ingredient_new') }}" class="btn btn-success">Create new</a>
     </div>
@@ -64,6 +72,7 @@
             </table>
         </div>
     </div>
+</div>
 
     <style>
         /* Custom styles for the table */

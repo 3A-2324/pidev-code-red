@@ -1,8 +1,15 @@
-{% extends './templates_back/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Recette index{% endblock %}
 
 {% block body %}
+<style>
+      .centered-div {
+        width: 70%; /* Set the width of the div */
+        margin-left: 20%; /* Set the top and bottom margin to 0, and the left and right margin to auto */
+    }
+</style>
+<div class="centered-div">
     <h1>Recette index</h1>
 
     <div class="actions">
@@ -30,6 +37,7 @@
             <select class="form-control" id="sortBy">
                 <option value="nom">Nom</option>
                 <option value="categorie">Categorie</option>
+                <option value="calories">Calories</option>
             </select>
         </div>
         <div class="form-group">
@@ -70,6 +78,7 @@
             </table>
         </div>
     </div>
+</div>
 
     <style>
         /* Custom styles for the table */
@@ -101,20 +110,26 @@
         // JavaScript for sorting and filtering the table
         function sortTable() {
             const sortBy = document.getElementById('sortBy').value;
-            const rows = Array.from(document.querySelectorAll('table tbody tr'));
+        const rows = Array.from(document.querySelectorAll('table tbody tr'));
 
-            rows.sort((a, b) => {
-                const aValue = a.querySelector(`td:nth-child(${sortBy === 'nom' ? 1 : 2})`).textContent.trim();
-                const bValue = b.querySelector(`td:nth-child(${sortBy === 'nom' ? 1 : 2})`).textContent.trim();
-                return aValue.localeCompare(bValue);
-            });
+        rows.sort((a, b) => {
+            let aValue, bValue;
+            if (sortBy === 'nom' || sortBy === 'categorie') {
+                aValue = a.querySelector(`td:nth-child(${sortBy === 'nom' ? 1 : 2})`).textContent.trim();
+                bValue = b.querySelector(`td:nth-child(${sortBy === 'nom' ? 1 : 2})`).textContent.trim();
+            } else if (sortBy === 'calories') {
+                aValue = parseFloat(a.querySelector('td:nth-child(3)').textContent.trim());
+                bValue = parseFloat(b.querySelector('td:nth-child(3)').textContent.trim());
+            }
+            return sortBy === 'calories' ? aValue - bValue : aValue.localeCompare(bValue);
+        });
 
-            const tbody = document.querySelector('table tbody');
-            tbody.innerHTML = '';
-            rows.forEach(row => {
-                tbody.appendChild(row);
-            });
-        }
+        const tbody = document.querySelector('table tbody');
+        tbody.innerHTML = '';
+        rows.forEach(row => {
+            tbody.appendChild(row);
+        });
+    }
 
         document.getElementById('sortBy').addEventListener('change', sortTable);
 

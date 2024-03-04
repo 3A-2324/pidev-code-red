@@ -1,4 +1,4 @@
-{% extends './templates_front/baseFront.html.twig' %}
+{% extends 'basef.html.twig' %}
 
 {% block title %}Journal {{ journal.id }}{% endblock %}
 
@@ -6,7 +6,6 @@
 <br>
 <div class="container">
     <h4 class="mb-4">Journal Details</h4>
-    <a href="{{ path('app_journal_edit', {'id': journal.id}) }}" class="btn btn-secondary">Edit</a>
     
     <p><strong>Date:</strong> {{ journal.date ? journal.date|date('Y-m-d') : '' }}</p>
     

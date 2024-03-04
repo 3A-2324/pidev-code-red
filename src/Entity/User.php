@@ -3,12 +3,12 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
@@ -19,6 +19,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
+    #[Assert\Regex(
+        pattern:"/^[^@]+@[^@]+\.[^@]+$/",
+        message:"L'email n'est pas valide Le format attendu est 'user@example.com"
+   )]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -28,37 +33,51 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
+    #[Assert\Regex(
+        pattern:"/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{8,}$/",
+        message:"Le mot de passe doit comporter au moins 8 caractères avec au moins une majuscule, une minuscule, un chiffre et un symbole."
+       
+     
+    )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
     private ?string $Nom = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
     private ?string $Prenom = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
     private ?\DateTimeInterface $Date_de_naissance = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:'choisissez votre genre')]
     private ?string $Genre = null;
-
     #[ORM\Column(length: 255)]
+    private ?string $Status = null;
+    #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message:'Le contenu ne peut pas etre vide')]
     private ?string $Adresse = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Regex(
+        pattern:"/^\d{8}$/",
+       message:"Le contenu doit être composé exactement de 8 chiffres.")]
     private ?string $Num_de_telephone = null;
-
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $token = null;
-
     #[ORM\OneToMany(mappedBy: 'id_user', targetEntity: Journal::class)]
     private Collection $journals;
 
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Commande::class)]
+    private Collection $commandes;
 
-    public function __construct()
-    {
-        $this->journals = new ArrayCollection();
-    }
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Panier::class)]
+    private Collection $paniers;
+
+
 
     public function getId(): ?int
     {
@@ -73,6 +92,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    
+    public function getStatus(): ?string
+    {
+        return $this->Status;
+    }
+
+    public function setStatus(string $Status): static
+    {
+        $this->Status = $Status;
 
         return $this;
     }
@@ -227,19 +259,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
-    public function getToken(): ?string
-    {
-        return $this->token;
-    }
-
-    public function setToken(?string $token): static
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, Journal>
      */
@@ -270,5 +289,63 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    
+    /**
+     * @return Collection<int, Commande>
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): static
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes->add($commande);
+            $commande->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): static
+    {
+        if ($this->commandes->removeElement($commande)) {
+            // set the owning side to null (unless already changed)
+            if ($commande->getUser() === $this) {
+                $commande->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Panier>
+     */
+    public function getPaniers(): Collection
+    {
+        return $this->paniers;
+    }
+
+    public function addPanier(Panier $panier): static
+    {
+        if (!$this->paniers->contains($panier)) {
+            $this->paniers->add($panier);
+            $panier->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanier(Panier $panier): static
+    {
+        if ($this->paniers->removeElement($panier)) {
+            // set the owning side to null (unless already changed)
+            if ($panier->getUser() === $this) {
+                $panier->setUser(null);
+            }
+        }
+
+        return $this;
+    }
 }

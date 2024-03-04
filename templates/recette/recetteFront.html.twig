@@ -1,11 +1,11 @@
-{% extends './templates_front/baseFront.html.twig' %}
+{% extends 'basef.html.twig' %}
 
 {% block body %}
 
 
 
 
-<h1>suggest index</h1>
+<h1>Suggested For You</h1>
 
 <section>
     <div class="row">
@@ -32,26 +32,29 @@
 
 <br>
 <br>
-<br>
-<h1>recette index</h1>
 
+<h1>Our Recipes</h1>
+<br>
 
 <section id="recipeSection">
-    <div class="card-body">
-        <select id="filter-ing" name="filter-ing" class="empty">
-        	<option value="0">Filtrer par Ingredient</option>
-			{% for ingredient in ingredients %}
-            <option value="{{ ingredient.id }}">{{ ingredient.Nom }}</option>
-			{% endfor %}
-        </select>
+    
+	<form class="form-inline bg-light p-3 rounded">
+    <div class="form-group flex-grow-1"style="width:500px"> <!-- Use flex-grow-1 to make the search input expand to fill available space -->
+        <input id="search-input" type="search" placeholder="Rechercher" class="rd-navbar-search-form-input form-input w-100"> <!-- Use w-100 to make the input width 100% -->
     </div>
-    <div class="row">
+    <div class="form-group ml-auto"> <!-- Use ml-auto to push the max calories input to the right -->
+        <input type="number" id="max-calories" placeholder="Maximum Calories">
+    </div>
+</form>
+
+
+	<div class="row">
 	
         {% for recette in recettes %}
             <div class="col-md-4 col-sm-6 col-xs-12">
                 <div class="card recette-info" data-id="{{ recette.id }}" data-nom="{{ recette.Nom }}" data-calorie="{{ recette.calorieRecette }}" data-description="{{ recette.description }}">
 					<div class="cover item-a" style="background-image: url('{{ asset('img/' ~ recette.image) }}')">
-						<h1>{{ recette.Nom }}</h1>
+						<h1 class ="card-title">{{ recette.Nom }}</h1>
 						<span class="price">{{ recette.calorieRecette }}</span>
 						<div class="card-back">
 							<p>{{ recette.description }}</p>
@@ -67,6 +70,11 @@
         {% endfor %}
 		
     </div>
+
+
+
+
+
 </section>
 <div class="card-footer">
 			<br>
@@ -79,30 +87,36 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<script>
-    $(document).ready(function() {
-    $('#filter-status').change(function() {
-        var selectedOption = $(this).val(); 
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$("#search-input").on("keyup", function() {
+				var value = $(this).val().toLowerCase();
+				$(".card").filter(function() {
+					$(this).toggle(
+							$(this).find('.card-title').text().toLowerCase().indexOf(value) > -1 ||
+							$(this).find('.card-text').text().toLowerCase().indexOf(value) > -1 ||
+							$(this).find('.price').text().toLowerCase().indexOf(value) > -1
+					);
+				});
+			});
+		});
 
-        // Récupération des valeurs de la recette sélectionnée
-        var rowTable = $('.recette-info');
-        var recetteId = rowTable.data('id');
-        var recetteNom = rowTable.data('nom');
-        var recetteCalorie = rowTable.data('calorie');
-        var recetteDescription = rowTable.data('description');
 
-        // Comparaison avec les valeurs de la recette
-        var t = (selectedOption == recetteId); // Comparaison d'identifiants par exemple
+		$("#max-calories").on("keyup", function() {
+            var maxCalories = $(this).val();
+            $(".card").each(function() {
+                var recipeCalories = parseInt($(this).find('.price').text());
+                if (recipeCalories > maxCalories) {
+                    $(this).hide();
+                } else {
+                    $(this).show();
+                }
+            });
+        });
 
-        // Afficher le résultat dans la console
-        if (t === true)
-            console.log(true);
-        else
-            console.log(false);
-    });
-});
-		 
-</script>
+	
+	</script>
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200;600 &display=swap');
 

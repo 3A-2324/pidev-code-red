@@ -72,6 +72,13 @@
         display: block;
     }
 </style>
+<style>
+    .centered-div {
+        width: 50%; /* Set the width of the div */
+        margin: 0 auto; /* Set the top and bottom margin to 0, and the left and right margin to auto */
+    }
+</style>
+<div class="centered-div">
 
 <div class="form-container">
     <h2 class="form-title">Modifier vos informations</h2>
@@ -103,20 +110,17 @@
     {{ form_widget(f.Num_de_telephone) }}
     <div class="error-message">{{ form_errors(f.Num_de_telephone) }}</div>
 
-    <label for="role">Rôle :</label>
-    {{ form_widget(f.role) }}
-    <div class="error-message">{{ form_errors(f.role) }}</div>
+    
 
     <label for="email">Email :</label>
     {{ form_widget(f.email) }}
     <div class="error-message">{{ form_errors(f.email) }}</div>
 
-    <label for="Mot_de_passe">Mot de passe :</label>
-    {{ form_widget(f.Mot_de_passe) }}
-    <div class="error-message">{{ form_errors(f.Mot_de_passe) }}</div>
+   
 
    
 
     {{ form_end(f) }}
+</div>
 </div>
 {% endblock %}

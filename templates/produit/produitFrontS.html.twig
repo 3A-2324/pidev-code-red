@@ -1,0 +1,225 @@
+{% extends 'HomePageS.html.twig' %}
+
+
+
+{% block Body %}
+    <style>
+        /* Styles CSS */
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .search-form {
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        .search-form .form-control {
+            flex: 1;
+            margin-right: 10px;
+            border-radius: 20px;
+        }
+
+        .search-form .btn-primary {
+            border-radius: 20px;
+        }
+
+        .btn-secondary {
+            margin-right: 10px;
+            border-radius: 20px;
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn-secondary:hover {
+            background-color: #0056b3;
+        }
+
+        .card {
+            margin-bottom: 20px;
+            transition: box-shadow 0.3s ease;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+        }
+
+        .card:hover {
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .card-text {
+            font-size: 16px;
+            color: #666;
+        }
+
+        .price {
+            font-size: 18px;
+            color: #007bff;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .filter-banner {
+            background-color: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .filter-banner h2 {
+            font-size: 20px;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .filter-banner ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .filter-banner ul li {
+            margin-bottom: 10px;
+        }
+
+        .filter-banner ul li a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .filter-banner ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .card-img-top {
+            object-fit: cover;
+            height: 200px;
+            width: 100%;
+        }
+        
+        /* Styles pour le formulaire de tri */
+        .sort-form {
+            margin-bottom: 30px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            background-color: #f0f0f0;
+        }
+
+        .sort-form label {
+            margin-right: 10px;
+        }
+
+        .sort-form select {
+            width: 150px;
+            border-radius: 5px;
+        }
+
+        .sort-form button {
+            border-radius: 5px;
+        }
+    </style>
+
+     <div class="container">
+        <div class="row">
+            <!-- Banner de filtrage à gauche -->
+            <div class="col-md-3">
+                <div class="filter-banner">
+                    <h2>Filtrer les produits</h2>
+                    {{ form_start(form, {'attr': {'action': path('app_produit_indexf'), 'method': 'GET'}}) }}
+                        <div class="form-group">
+                            {{ form_label(form.prix, 'Prix maximum:') }}
+                            {{ form_widget(form.prix, {'attr': {'class': 'form-control', 'placeholder': 'Prix maximum'}}) }}
+                        </div>
+                    {{ form_end(form) }}
+                    {% for produit in produits %}
+                        <div>{{ produit.NomProduit }} - {{ produit.prix }}</div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Formulaire de recherche et liste des produits -->
+            <div class="col-md-9">
+                <!-- Formulaire de recherche -->
+                <div class="row justify-content-center mb-3">
+                    <div class="col-md-8">
+                        <form action="{{ path('app_produit_indexf') }}" method="GET" class="search-form">
+                            <div class="input-group">
+                                <input
+                                       id="search-input" type="text" name="q" class="form-control" placeholder="Rechercher des produits">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">Rechercher</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Liste des produits -->
+                <div class="row">
+                    {% for produit in produits %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100">
+                                <img src="{{ asset('img/' ~ produit.image) }}" class="card-img-top" alt="Product Image">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ produit.NomProduit }}</h5>
+                                    <p class="card-text">{{ produit.Description | slice(0, 100) }}{% if produit.Description|length > 100 %}...{% endif %}</p>
+                                    <p class="price">Prix: {{ produit.Prix }} DT</p>
+                                    <a href="{{ path('app_produit_showf', {'id': produit.id}) }}" class="btn btn-primary">
+                                        <i class="fa fa-eye"></i> Show
+                                    </a>
+                                    <a href="{{ path('app_panier_index', {'id': produit.id}) }}" class="btn btn-success">
+                                        <i class="fa fa-cart-plus"></i> Add Product
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p class="col-md-12">No records found</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <title>AJAX Search Example</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#search-input").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $(".card").filter(function() {
+                    $(this).toggle(
+                        $(this).find('.card-title').text().toLowerCase().indexOf(value) > -1 ||
+                        $(this).find('.card-text').text().toLowerCase().indexOf(value) > -1 ||
+                        $(this).find('.price').text().toLowerCase().indexOf(value) > -1
+                    );
+                });
+            });
+        });
+    </script>
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+

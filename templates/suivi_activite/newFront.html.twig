@@ -1,0 +1,12 @@
+{% extends 'basef.html.twig'%}
+
+{% block title %}New Suivi Activite{% endblock %}
+
+{% block body %}
+
+        <h1>Create new SuiviActivité</h1>
+
+        {{ include('suivi_activite/_form.html.twig') }}
+
+        <a href="{{ path('app_suivi_activit__index_front') }}">back to list</a>
+{% endblock %}

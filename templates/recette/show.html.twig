@@ -1,8 +1,15 @@
-{% extends './templates_back/base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block title %}Recette{% endblock %}
 
 {% block body %}
+<style>
+    .centered-div {
+        width: 50%; /* Set the width of the div */
+        margin: 0 auto; /* Set the top and bottom margin to 0, and the left and right margin to auto */
+    }
+</style>
+<div class="centered-div">
     <div class="container mt-5">
 
 		<div class="row justify-content-end mt-4">
@@ -42,4 +49,5 @@
             <a href="{{ path('app_recette_index') }}" class="btn btn-secondary">Back to List</a>
         </div>
     </div>
+</div>
 {% endblock %}

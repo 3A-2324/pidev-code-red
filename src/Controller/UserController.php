@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-
 use App\Form\UserType;
+use App\Form\UserType1;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -12,9 +12,23 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Repository\UserRepository;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Dompdf\Dompdf;
+use Dompdf\Options;
+
 
 class UserController extends AbstractController
 { //back
+
+    #[Route('/back', name: 'back_user')]
+    public function admin(): Response
+    {
+        return $this->render('BackPage.html.twig');
+    }
+    #[Route('/front', name: 'front_user')]
+    public function front(): Response
+    {
+        return $this->render('HomePageS.html.twig');
+    }
     #[Route('/user', name: 'display_user')]
     public function index(): Response
     {
@@ -35,6 +49,8 @@ class UserController extends AbstractController
             $userData = $form->getData();
 
             $user->setRoles(['ROLE_ADMIN']);
+
+            $user->setStatus("Active");
             $plaintextPassword = $userData->getPassword(); 
     
             $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
@@ -69,7 +85,7 @@ class UserController extends AbstractController
     {
         $user = $this->getDoctrine()->getManager()->getRepository(User::class)->find($id);
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(UserType1::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -82,18 +98,42 @@ class UserController extends AbstractController
         return $this->render('user/updateUser.html.twig', ['f' => $form->createView()]);
     }
     //recherche
-    
-     
-    #[Route('/back', name: 'back_user')]
-    public function admin(): Response
+    #[Route('/act/{id}', name: 'act')]
+
+    public function Active($id)
     {
-        return $this->render('user/back.html.twig');
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+        $newRoles = ['ROLE_USER'];
+        $user->setRoles($newRoles);
+        $user->setStatus("Active");
+        $entityManager->flush();
+        return $this->redirectToRoute('display_user');
     }
-    #[Route('/front', name: 'front_user')]
-    public function front(): Response
+    #[Route('/block/{id}', name: 'block')]
+
+    public function Block($id)
     {
-        return $this->render('user/front.html.twig');
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+        $newRoles = ['ROLE_ADMIND'];
+        $user->setRoles($newRoles);
+        $user->setStatus("Disabled");
+        $entityManager->flush();
+        return $this->redirectToRoute('display_user');
     }
+    #[Route('/TrierParDateDESC', name: 'TrierParDateDESC')]
+
+    public function TrierParDate(Request $request): Response
+    {
+        $repository = $this->getDoctrine()->getRepository(User::class);
+        $user = $repository->findByNom();
+
+        return $this->render('user/index.html.twig', [
+            'u' => $user,
+        ]);
+    }
+
 
 //front
 #[Route('/ajoutuserf', name: 'ajouterf_user')]
@@ -107,16 +147,16 @@ public function ajoutuser(Request $request, UserPasswordHasherInterface $passwor
         $userData = $form->getData();
 
         $user->setRoles(['ROLE_USER']);
+        $user->setStatus("Active");
         $plaintextPassword = $userData->getPassword(); 
-        //$user->setToken($this->generateToken());
+
         $hashedPassword = $passwordHasher->hashPassword($user, $plaintextPassword);
         $user->setPassword($hashedPassword);
         $em = $this->getDoctrine()->getManager();
         $em->persist($user);
         $em->flush();
-        $this->addFlash( type :"success", message:"inscription réussie !");
 
-    return $this->redirectToRoute('front_user');
+    return $this->redirectToRoute('app_login');
     }
 
     return $this->render('user/createUserf.html.twig', ['f' => $form->createView()]);
@@ -134,24 +174,85 @@ public function modifruserf(Request $request, $id): Response
         $em = $this->getDoctrine()->getManager();
         $em->flush();
 
-        return $this->redirectToRoute('user_show');
+        return $this->redirectToRoute('showf_user');
     }
 
-    return $this->render('user/updateUser.html.twig', ['f' => $form->createView()]);
+    return $this->render('user/updateUserf.html.twig', ['f' => $form->createView()]);
 }
-    #[Route('/home', name: 'home_user')]
+#[Route('/PDF', name: 'PDF')]
+
+public function listl(UserRepository $UserRepository): Response
+{
+
+    $pdfOptions = new Options();
+    $pdfOptions->set('defaultFront', 'Arial');
+
+    $dompdf = new Dompdf($pdfOptions);
+    $user = $UserRepository->findAll();
+
+
+    $html = $this->renderView('user/pdf.html.twig', [
+        'u' => $user,
+    ]);
+
+    $dompdf->loadHtml($html);
+
+    $dompdf->setPaper('A4', 'portrait');
+
+    $dompdf->render();
+
+    $dompdf->stream("mypdf.pdf", [
+        "Attachment" => true
+    ]);
+    return new Response('Response content');
+}
+#[Route('/home', name: 'home_user')]
     public function home(): Response
     {
         $users = $this->getDoctrine()->getManager()->getRepository(User::class)->findAll();
-        return $this->render('user/front.html.twig', [
+        return $this->render('HomePage.html.twig', [
             'u' => $users
         ]);
     }
-    #[Route('/showuser/{id}', name: 'user_show', methods: ['GET'])]
-    public function show(User $user): Response
+   
+    #[Route('profile', name: 'show_user', methods: ['GET'])]
+    public function showuser(Request $request): Response
     {
-        return $this->render('user/showf.html.twig',[
-        'user' => $user, ]);
-            
+        $token = $this->get('security.token_storage')->getToken();
+
+// Check if the token exists and is authenticated
+        if ($token && $token->isAuthenticated()) {
+            // Get the user object from the token
+            $user = $token->getUser();
+
+            // Do something with the user object
+            // For example, get the user's username
+            $id = $user->getId();
+        }
+        $user = $this->getDoctrine()->getManager()->getRepository(User::class)->find($id);
+        return $this->render('user/profile.html.twig', [
+           'user' => $user,
+
+     ]);
+    }
+    #[Route('profilef', name: 'showf_user', methods: ['GET'])]
+    public function showuserf(Request $request): Response
+    {
+        $token = $this->get('security.token_storage')->getToken();
+
+// Check if the token exists and is authenticated
+        if ($token && $token->isAuthenticated()) {
+            // Get the user object from the token
+            $user = $token->getUser();
+
+            // Do something with the user object
+            // For example, get the user's username
+            $id = $user->getId();
+        }
+        $user = $this->getDoctrine()->getManager()->getRepository(User::class)->find($id);
+        return $this->render('user/profilef.html.twig', [
+           'user' => $user,
+           
+     ]);
     }
 }

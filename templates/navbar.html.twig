@@ -1,0 +1,140 @@
+<!--**********************************
+           Nav header start
+       ***********************************-->
+<div class="nav-header">
+    <a href={{path('back_user')}} class="brand-logo">
+        <img class="logo-abbr" src={{asset("/back_librairies/images/logo.png")}} alt="">
+        <img class="logo-compact" src={{asset("/back_librairies/images/avatar/logo-text.png")}} alt="">
+
+    </a>
+
+    <div class="nav-control">
+        <div class="hamburger">
+            <span class="line"></span><span class="line"></span><span class="line"></span>
+        </div>
+    </div>
+</div>
+<!--**********************************
+    Nav header end
+***********************************-->
+
+<!--**********************************
+    Header start
+***********************************-->
+<div class="header">
+    <div class="header-content">
+        <nav class="navbar navbar-expand">
+            <div class="collapse navbar-collapse justify-content-between">
+                <div class="header-left">
+                    <div class="search_bar dropdown">
+                                <span class="search_icon p-3 c-pointer" data-toggle="dropdown">
+                                    <i class="mdi mdi-magnify"></i>
+                                </span>
+
+                    </div>
+                </div>
+
+                <ul class="navbar-nav header-right">
+                    <li class="nav-item dropdown notification_dropdown">
+                        <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+                            <i class="mdi mdi-bell"></i>
+                            <div class="pulse-css"></div>
+                        </a>
+
+                    </li>
+                    <li class="nav-item dropdown header-profile">
+                        <a class="nav-link" href="#" role="button" data-toggle="dropdown">
+                            <i class="mdi mdi-account"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href={{ path('show_user')}} class="dropdown-item">
+                                <i class="icon-user"></i>
+                                <span class="ml-2">Profile </span>
+                            </a>
+
+                            <a href={{ path('app_logout')}} class="dropdown-item">
+                                <i class="icon-key"></i>
+                                <span class="ml-2">Logout </span>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+<!--**********************************
+    Header end ti-comment-alt
+***********************************-->
+
+<!--**********************************
+    Sidebar start
+***********************************-->
+<div class="quixnav">
+    <div class="quixnav-scroll">
+        <ul class="metismenu" id="menu">
+
+
+
+
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                            class="icon icon-plug"></i><span class="nav-text">gestion de l'utilisateur</span></a>
+                <ul aria-expanded="false">
+                    <li><a href={{ path('display_user') }}>Users</a></li>
+                    <li><a href={{ path('ajouter_user') }}>Add User</a></li>
+                </ul>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                            class="icon icon-chart-bar-33"></i><span class="nav-text">Gestion Activite</span></a>
+                <ul aria-expanded="false">
+                    <li><a href={{ path('app_activite_index') }}>Activite</a></li>
+                    <li><a href={{ path('app_suivi_activit__index') }}>Suivi Activite</a></li>
+
+                </ul>
+            </li>
+
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                            class="icon icon-btn-play"></i><span class="nav-text">gestion produits</span></a>
+                <ul aria-expanded="false">
+                    <li><a href={{path('app_produit_index')}}>produit</a></li>
+                    <li><a href={{path('app_commande_index')}}>Commande</a></li>
+
+                </ul>
+            </li>
+
+
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                            class="icon icon-world-2"></i><span class="nav-text">gestion objectif sante</span></a>
+                <ul aria-expanded="false">
+                    <li><a href={{path('afficher')}}>objectifs</a></li>
+                    <li><a href={{path('affichersuivi')}}>suivi_Objectifs</a></li>
+
+
+                </ul>
+            </li>
+            <li><a class="has-arrow" href="javascript:void()" aria-expanded="false"><i
+                            class="icon icon-plug"></i><span class="nav-text">gestion repas et nutrtion</span></a>
+                <ul aria-expanded="false">
+
+                    <li><a href={{path('app_ingredient_index')}}>Ingredients</a></li>
+                    <li><a href={{path('app_recette_index')}}>Recettes</a></li>
+
+
+                </ul>
+            </li>
+
+
+
+
+
+
+
+
+
+        </ul>
+    </div>
+
+
+</div>
+<!--**********************************
+    Sidebar end
+***********************************-->

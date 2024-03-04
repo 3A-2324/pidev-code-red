@@ -1,0 +1,124 @@
+{% extends 'basef.html.twig' %}
+
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>consulter Suivi</title>
+    {{ form_start(myForm,{'attr': {'novalidate': 'novalidate'}} ) }} 
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            box-sizing: border-box;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+
+    </style>
+</head>
+<body>
+    <h3>Ajouter Suivi</h3>
+
+    {# Afficher le formulaire avec les champs nécessaires #}
+    <form method="post" action="{{ path('ajouterrr') }}">
+        {# Inclure le token CSRF pour protéger votre formulaire #}
+        {{ form_widget(myForm._token) }}
+
+        {# Afficher les erreurs globales du formulaire #}
+        {{ form_errors(myForm) }}
+         {# Champ id_objectif avec les choix des id d'objectifs #}
+ <div>
+ 
+           
+           <p>ton premier poids</p>
+            
+            {{ form_errors(myForm.id_objectif) }}
+            <select id="{{ myForm.id_objectif.vars.id }}" name="{{ myForm.id_objectif.vars.full_name }}">
+                {% for objectif in objectifs %}
+                    <option value="{{ objectif.id }}">{{ objectif.weight }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {# Champ date_suivi #}
+       <div class="row">
+                    <div class="col-md-12">
+                        {{ form_row(myForm.date_suivi, {'label': 'Date de rendez-vous', 'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+
+        {# Champ nouveau_poids #}
+        <div>
+            {{ form_label(myForm.nouveau_poids) }}
+            {{ form_errors(myForm.nouveau_poids) }}
+            {{ form_widget(myForm.nouveau_poids) }}
+        </div>
+
+       
+        {# Bouton de soumission #}
+        <div>
+            <button type="submit">ajouter</button>
+        </div>
+    </form>
+</body>
+</html>
+
+{% endblock %}
+
+ 
+       {#     {{ form_start(myForm) }}
+
+    {{ form_row(myForm.recaptcha) }} 
+    
+->add("recaptcha", ReCaptchaType::class);
+    {{ form_errors(myForm.recaptcha) }}
+    
+
+{{ form_end(myForm) }} #}

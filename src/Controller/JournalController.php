@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Dompdf\Dompdf;
 use Dompdf\Options;
 use App\Entity\Journal;
@@ -12,10 +13,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Repository\RecetteRepository;
 use DateTime;
-use Twilio\Rest\Client;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+use Symfony\Component\Mime\Address;
 
 
 #[Route('/journal')]
@@ -23,17 +25,25 @@ class JournalController extends AbstractController
 {
 
     #[Route('/generate-weekly-ingredient-pdf', name: 'generate_weekly_ingredient_pdf')]
-    public function generateWeeklyIngredientPdf(EntityManagerInterface $entityManager, JournalRepository $repo): Response
+    public function generateWeeklyIngredientPdf(EntityManagerInterface $entityManager, JournalRepository $repo,MailerInterface $mailer): Response
     {
-        $currentDate = new DateTime(); // Create a new DateTime object representing the current date and time
-        $currentDateString = $currentDate->format('Y-m-d');
+        $token = $this->get('security.token_storage')->getToken();
+        if ($token && $token->isAuthenticated()) {
+            // Get the user object from the token
+            $user = $token->getUser();
 
-        $startOfWeek = DateTime::createFromFormat('Y-m-d', $currentDateString);
-        
+            // Do something with the user object
+            // For example, get the user's username
+            $id = $user->getId();
+        }
+        $user = $this->getDoctrine()->getManager()->getRepository(User::class)->find($id);
+    
+        $currentDate = new DateTime();
+        $startOfWeek = DateTime::createFromFormat('Y-m-d', $currentDate->format('Y-m-d'));
+    
         $pdfoptions = new Options();
         $pdfoptions->set('defaultFont', 'Arial');
         $pdfoptions->setIsRemoteEnabled(true);
-        
     
         $dompdf = new Dompdf($pdfoptions);
     
@@ -50,6 +60,16 @@ class JournalController extends AbstractController
         $dompdf->render();
     
         $pdfOutput = $dompdf->output();
+    
+        $email = (new Email())
+             ->from(new Address('ben.ons@esprit.tn', 'optihealth BOT'))
+             ->to($user->getEmail())
+            ->subject('Weekly Ingredient List')
+            ->text('Here is the weekly ingredient list attached.')
+            ->attach('weekly_ingredient_list.pdf', $pdfOutput, 'application/pdf');
+    
+        $mailer->send($email);
+    
         
     
         return new Response($pdfOutput, Response::HTTP_OK, [
@@ -62,9 +82,18 @@ class JournalController extends AbstractController
     #[Route('/', name: 'app_journal_index', methods: ['GET', 'POST'])]
     public function index(Request $request, JournalRepository $journalRepository): Response
     {
-   
+        $token = $this->get('security.token_storage')->getToken();
+        if ($token && $token->isAuthenticated()) {
+            // Get the user object from the token
+            $user = $token->getUser();
+
+            // Do something with the user object
+            // For example, get the user's username
+            $id = $user->getId();
+        }
+        $user = $this->getDoctrine()->getManager()->getRepository(User::class)->find($id);
     
-        $journals = $journalRepository->findAll();
+        $journals = $journalRepository->findBy(['id_user'=> $user] );
     
         $events = [];
     
@@ -126,6 +155,17 @@ class JournalController extends AbstractController
             } else {
                 // If no existing journal is found, persist the new journal
                 $journal->setCaloriesJournal();
+                $token = $this->get('security.token_storage')->getToken();
+                if ($token && $token->isAuthenticated()) {
+                    // Get the user object from the token
+                    $user = $token->getUser();
+
+                    // Do something with the user object
+                    // For example, get the user's username
+                    $id = $user->getId();
+                }
+                $user = $this->getDoctrine()->getManager()->getRepository(User::class)->find($id);
+                $journal->setIdUser($user);
                 $entityManager->persist($journal);
                 $entityManager->flush();
             }

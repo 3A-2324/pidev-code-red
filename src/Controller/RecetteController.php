@@ -3,9 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Recette;
-use GuzzleHttp\Client;
-use App\Controller\Exception;
-use App\Form\Recette1Type;
 use App\Form\RecetteType;
 use App\Repository\RecetteRepository;
 use App\Repository\IngredientRepository;
@@ -17,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\HttpFoundation\JsonResponse;
+
 
 #[Route('/recette')]
 class RecetteController extends AbstractController
@@ -31,7 +28,24 @@ class RecetteController extends AbstractController
         ]);
     }
 
-
+    #[Route('/frontS', name: 'app_recette_indexS', methods: ['GET'])]
+    public function frontindexS(Request $request, PaginatorInterface $paginator, RecetteRepository $recetteRepository, IngredientRepository $ingredientRepository): Response
+{
+    $data = $recetteRepository->findAll();
+    $recettes=$paginator->paginate(
+        $data,
+        $request->query->getInt('page',1),
+        6
+    );
+    
+    
+    $ingredients = $ingredientRepository->findAllIngredients(); // Fetch all ingredients
+    
+    return $this->render('recette/recetteFrontS.html.twig', [
+        'recettes' => $recettes,
+        'ingredients' => $ingredients, // Pass all ingredients to the template
+    ]);
+}
 
     #[Route('/front', name: 'app_recette_indexf', methods: ['GET'])]
 public function frontindex(Request $request, PaginatorInterface $paginator, RecetteRepository $recetteRepository, IngredientRepository $ingredientRepository): Response
@@ -205,31 +219,4 @@ public function filterRecipes(Request $request, RecetteRepository $recetteReposi
 
         return $this->redirectToRoute('app_recette_index', [], Response::HTTP_SEE_OTHER);
     }
-
-
-    #[Route('/season', name: 'app_recette_season', methods: ['GET', 'POST'])]
-    public function listRecettesWithSeasonalIngredients(): JsonResponse
-{
-    try {
-        // Create a Guzzle HTTP client
-        $client = new Client();
-
-        // Make a GET request to the Seasonal Food Guide API endpoint to fetch seasonal ingredients
-        $response = $client->request('GET', 'http://linkdata.org/api/1/rdf1s2505i/datapackage.json');
-        $seasonalIngredients = json_decode($response->getBody(), true);
-
-        // Dump the decoded JSON data
-        dd($seasonalIngredients);
-        
-        // Alternatively, return a JSON response
-        // return new JsonResponse($seasonalIngredients);
-    } catch (\Exception $e) {
-        // Handle exceptions
-        // Log the error
-        // Return an error response to the client
-        return new Response('Error fetching seasonal ingredients: ' . $e->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
-    }
-   
-
-}
 }
